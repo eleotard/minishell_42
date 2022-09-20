@@ -6,10 +6,10 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 17:47:19 by eleotard         ###   ########.fr       */
-/*   Updated: 2022/09/20 15:45:04 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:06:24 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -99,7 +99,6 @@ int		fd_heredoc(char *s, t_cmd *cmd);
 int	fd_is_already_used(int fd, t_cmd *cmd);
 
 /*REDIR*/
-void	print_err(char *file, char *s);
 void	file_err(t_token *tmp, t_cmd *cmd);
 int		heredoc(t_cmd *temp, t_cmd *cmd);
 t_cmd	*redir(t_cmd *cmd, int hd);
@@ -204,7 +203,7 @@ char	*ft_strjoin_free(char *s1, char *s2, int opt);
 
 /*TEST PRINTS*/
 void	print_tabtab(char **tab);
-void	print_err(char *file, char *s);
+void	print_err(char *file, char *s, char *s2);
 
 int		get_exit(void);
 void	reset_default_signals(void);

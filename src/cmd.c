@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 16:42:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/19 18:26:38 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:08:56 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_cmd	*pars_err(t_cmd *cmd)
 			if ((r->type == word || r->type == pip)
 				|| (r->type > 3 && r->next && r->next->type >= 3))
 			{
-				printf("Minishell: parse error near '%s'\n", r->str);
+				print_err("parse error near ", r->str, NULL);
 				ctfree(cmd, NULL, 'c', 2);
 				return (NULL);
 			}

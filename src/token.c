@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:55:11 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/13 16:52:45 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:08:46 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_token	*token_syntax(t_token *token)
 	}
 	if (!ret)
 		return (token);
-	printf("Minishell: parse error near '%s'\n", tmp->str);
+	print_err("parse error near ", tmp->str, NULL);
 	ctfree(token, NULL, 't', 2);
 	return (NULL);
 }

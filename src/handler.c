@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:33:29 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/13 18:23:46 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:35:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ t_env	*handler(int opt, char **env, char *name, char *content)
 	if (name && !ft_strcmp(name, "?"))
 	{
 		exit_status = opt;
+		//printf("exit status = %d\n", exit_status);
 		return (NULL);
 	}
 	if (content && !ft_strcmp(content, "?"))

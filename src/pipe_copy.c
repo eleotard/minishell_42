@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_copy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 19:24:56 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:29:30 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
 {
 	close_child_fds(tmp, previous, fd[0], fd[1]);
 	exec_built(tmp);
-	exit_free(cmd, NULL, 'c', 0);
+	exit_free(cmd, NULL, 'c', get_exit());
 }
 
 int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])

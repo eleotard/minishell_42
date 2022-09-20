@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 12:48:46 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/09/20 19:18:30 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:21:44 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ void	loop(void)
 	s = NULL;
 	while (1)
 	{
-		
 		s = readline("\e[1m\e[31m\002""Minishell : ""\001\e[0m\002");
 		if (s == NULL)
-			exit_free(NULL, "exit", 0, 1);
+		{
+			ft_putstr_fd("exit\n", 2);
+			exit_free(NULL, NULL, 0, 1);
+		}
 		add_history(s);
 		if (only_space(s))
 			continue ;
@@ -56,7 +58,7 @@ int	main(int ac, char **av, char **env)
 	catch_signals();
 	if (!env || !env[0])
 	{
-		printf("env NULL exit\n");
+		print_err("env null", NULL, NULL);
 		return (1);
 	}
 	handler(0, env, NULL, NULL);

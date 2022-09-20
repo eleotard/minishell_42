@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 19:17:46 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:32:00 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ex_cd(t_cmd *cmd, t_env *env)
 	if (cmd->arg->next)
 		s = cmd->arg->next->str;
 	if (!env && (!s || s[0] == '~'))
-		return (print_err(NULL, "cd : HOME not set"));
+		return (print_err(NULL, "cd : HOME not set", NULL));
 	if (env && (!s || !ft_strcmp(s, "~")))
 	{
 		s = ft_strdup(env->content);
@@ -100,7 +100,10 @@ void	ex_cd(t_cmd *cmd, t_env *env)
 		f = 1;
 	}
 	if (s && chdir(s) == -1)
-		printf("Minishell: cd: %s: Not a directory\n", s);
+	{
+		handler(1, NULL, "?", NULL);
+		print_err("cd: ", s, ": Not a directory");
+	}
 	else
 		handler(3, NULL, "PWD", getcwd(buf, 4096));
 	if (f)
@@ -136,7 +139,7 @@ void	ex_it(t_cmd *cmd)
 		// handler(exit_status, NULL, "?", NULL);
 		exit_free(cmd, "exit", 'c', exit_status);
 	}
-	print_err("exit: %s: numeric argument required\n", arg->str);
+	print_err("exit: ", arg->str, ": numeric argument required");
 	if (cmd->fdin != 0)
 		close(cmd->fdin);
 	if (cmd->fdout != 1)
