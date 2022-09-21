@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 16:01:23 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:14:51 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,26 @@ int				ft_multi_pipe(t_cmd *cmd);
 void			check_children_status(t_cmd *tmp, int *res);
 
 int				get_cmd_size(t_cmd *cmd);
+
+/*TEST PRINTS*/
+void			print_tabtab(char **tab);
+void			print_err(char *file, char *s, char *s2);
+void			print_env(t_env *env);
+
+int				get_exit(void);
+void			reset_default_signals(void);
+
+void			dup_in_and_out(t_cmd *tmp);
+void			close_all_fds(t_cmd *cmd, int opt);
+void			here_handler_sigint(int sig);
+int				ft_multi_pipe(t_cmd *cmd);
+void			check_children_status(t_cmd *tmp, int *res);
+
+int				get_cmd_size(t_cmd *cmd);
+
+void			is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
+int				get_cmd_size(t_cmd *cmd);
+void			close_child_fds(t_cmd *tmp, int previous, int in, int out);
+int				is_exe(t_cmd *cmd);
 
 #endif
