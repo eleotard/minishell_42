@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:05:46 by elpastor          #+#    #+#             */
-/*   Updated: 2022/08/15 14:05:29 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:32:11 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,7 @@ void	del_unquot_extra(char *s, int *i, int *j, char quot)
 		}
 		s[*i - 1] = '\0';
 		*i = len;
+		if (*i < 0)
+			*i = 0;
 	}
 }

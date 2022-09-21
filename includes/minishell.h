@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 16:14:51 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:21:30 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,16 +170,13 @@ void			free_tabs_exit_free(t_cmd *cmd,
 
 /*EXEC*/
 void			*parent(t_cmd *cmd, int res);
-void			determine_exe_type(t_cmd *cmd);
-
+void			determine_exe_type(t_cmd *cmd, char *path);
 char			**create_env_tab(t_env *env, int nb_of_lines);
 char			**get_exec_env(void);
 char			**get_exec_args(t_cmd *cmd, int nb_of_arg);
 int				find_slash(t_cmd *cmd);
 int				is_built(t_cmd *cmd);
-
 int				find_nb_of_args(t_cmd *cmd);
-
 void			exec(t_cmd *cmd, const char *pathname);
 void			exec_cmd_without_redir(t_cmd *cmd,
 					const char *pathname, int nb_of_arg, char **env);

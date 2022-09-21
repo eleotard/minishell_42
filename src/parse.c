@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 16:13:50 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:27:30 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ void	tokenizing(t_token *token)
 				else
 					tmp->str = del_unused_quot(tmp->str);
 				i++;
+				if (!tmp->str[0])
+					break ;
 			}
 		}
 		tmp = tmp->next;
