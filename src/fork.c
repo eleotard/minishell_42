@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 16:13:34 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:47:04 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	single_cmd_handler(t_cmd *cmd)
 		dup2(cmd->fdin, 0);
 	if (cmd->fdout != 1)
 		dup2(cmd->fdout, 1);
-	close_all_fds(cmd, 1);
+	close_all_fds(cmd, 0);
 	determine_exe_type(cmd, NULL);
 }
 
@@ -91,7 +91,7 @@ void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
 			single_cmd_handler(cmd);
 		else
 		{
-			close_all_fds(cmd, 1);
+			close_all_fds(cmd, 0);
 			check_children_status(cmd, res);
 		}
 	}
@@ -108,7 +108,7 @@ void	*parent(t_cmd *cmd, int res)
 		return (close_all_fds(cmd, 1), ctfree(cmd, NULL, 'c', 0), NULL);
 	if (is_built(cmd) && get_cmd_size(cmd) == 1)
 	{
-		close_all_fds(cmd, 1);
+		close_all_fds(cmd, 0);
 		exec_built(cmd);
 		return (ctfree(cmd, NULL, 'c', get_exit()), NULL);
 	}
