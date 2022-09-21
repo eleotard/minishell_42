@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 16:14:51 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:28:23 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void			free_tabs_exit_free(t_cmd *cmd,
 
 /*EXEC*/
 void			*parent(t_cmd *cmd, int res);
-void			determine_exe_type(t_cmd *cmd);
+void			determine_exe_type(t_cmd *cmd, char *path);
 
 char			**create_env_tab(t_env *env, int nb_of_lines);
 char			**get_exec_env(void);
