@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 19:18:03 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:44:19 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void	determine_exe_type(t_cmd *cmd)
 
 	if (!is_exe(cmd) && cmd->arg && cmd->arg->str)
 	{
-		print_err("command not found: ", cmd->arg->str);
+		print_err("command not found: ", cmd->arg->str, NULL);
 		exit_free(cmd, NULL, 'c', 127);
 	}
 	else if (!is_built(cmd) && !find_slash(cmd))
@@ -218,7 +218,7 @@ void	determine_exe_type(t_cmd *cmd)
 		path = look_for_path(cmd);
 		if (!path)
 		{
-			print_err("command not found: ", cmd->arg->str);
+			print_err("command not found: ", cmd->arg->str, NULL);
 			exit_free(cmd, NULL, 'c', 127);
 		}
 		exec(cmd, path);
@@ -227,7 +227,7 @@ void	determine_exe_type(t_cmd *cmd)
 	{
 		if (access(cmd->arg->str, X_OK) == -1)
 		{
-			print_err("command not found: ", cmd->arg->str);
+			print_err("command not found: ", cmd->arg->str, NULL);
 			exit_free(cmd, NULL, 'c', 127);
 		}
 		exec(cmd, cmd->arg->str);
@@ -252,7 +252,7 @@ void	*parent(t_cmd *cmd)
 	res = 0;
 	if (!is_exe(cmd) && cmd->arg && cmd->arg->str && get_cmd_size(cmd) == 1)
 	{
-		print_err("command not found: ", cmd->arg->str);
+		print_err("command not found: ", cmd->arg->str, NULL);
 		return (ctfree(cmd, NULL, 'c', 127), NULL);
 	}
 	if (!cmd->arg)

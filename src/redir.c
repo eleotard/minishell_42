@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 19:23:38 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:44:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	close_all_fds(t_cmd *cmd, int opt)
 void	file_err(t_token *tmp, t_cmd *cmd)
 {
 	if (access(tmp->next->str, F_OK) != 0)
-		print_err(tmp->next->str, ": No such file or directory");
+		print_err(tmp->next->str, ": No such file or directory", NULL);
 	else
-		print_err(tmp->next->str, ": Permission denied");
+		print_err(tmp->next->str, ": Permission denied", NULL);
 	close_all_fds(cmd, 1);
 	handler(1, NULL, "?", NULL);
 }

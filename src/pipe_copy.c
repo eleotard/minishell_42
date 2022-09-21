@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 21:29:30 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 14:57:13 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,10 @@ void	parent_life(t_cmd *tmp, int previous, int in, int out)
 
 void	dup_in_and_out(t_cmd *tmp)
 {
-	if (tmp->fdin != 0) //donc si cest previous ou un file
-	{
+	if (tmp->fdin != 0)
 		dup2(tmp->fdin, 0);
-		//close(tmp->fdin);
-	}
-	if (tmp->fdout != 1) //si cest fd[1] ou un file
-	{
-		dup2(tmp->fdout, 1); //fd[1]
-		//close(tmp->fdout);
-	}
+	if (tmp->fdout != 1)
+		dup2(tmp->fdout, 1);
 }
 
 void	close_child_fds(t_cmd *tmp, int previous, int in, int out)
@@ -78,7 +72,7 @@ void	close_child_fds(t_cmd *tmp, int previous, int in, int out)
 		if (previous != 0)
 			close(previous);
 	}
-	close(in); //fd[0]
+	close(in);
 	if (!tmp->next || tmp->fdout != out)
 		close(out);
 }
@@ -100,11 +94,12 @@ void	is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
 int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])
 {
 	*previous = fd[0];
-	//printf("PREVIOUS = %d\n\n", previous);
 	if (tmp->next)
 	{
 		if (pipe(fd) < 0)
 		{
+			if (*previous != 0)
+				close(*previous);
 			ctfree(cmd, "minishell: pipe error", 'c', 1);
 			return (1);
 		}
@@ -156,7 +151,7 @@ void	check_children_status(t_cmd *tmp, int *res)
 	}
 	catch_signals();
 	if (WIFEXITED(status))
-		*res = 0;
+		*res = WEXITSTATUS(status);
 	else
 	{
 		if (WIFSIGNALED(status))
@@ -165,7 +160,7 @@ void	check_children_status(t_cmd *tmp, int *res)
 			write(1, "\n", 1);
 		}
 		else
-			*res = 128 + WEXITSTATUS(status);
+			*res = 127;
 	}
 }
 

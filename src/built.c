@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 21:32:00 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:57:38 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ex_cd(t_cmd *cmd, t_env *env)
 	if (cmd->arg->next)
 		s = cmd->arg->next->str;
 	if (!env && (!s || s[0] == '~'))
-		return (print_err(NULL, "cd : HOME not set", NULL));
+		return (print_err(NULL, "cd : HOME not set", NULL)); //set error code avec handler
 	if (env && (!s || !ft_strcmp(s, "~")))
 	{
 		s = ft_strdup(env->content);
@@ -130,19 +130,16 @@ void	ex_it(t_cmd *cmd)
 	if (!cmd->arg->next)
 		exit_free(cmd, NULL, 'c', 0);
 	if (cmd->arg->next->next)
-		return (ctfree(cmd, "Minishell: exit: too many arguments", 'c', 1));
+	{
+		print_err("exit: too many arguments", NULL, NULL);
+		handler(1, NULL, "?", NULL);
+		return ;
+	}
 	arg = cmd->arg->next;
 	atoi_err = 0;
 	exit_status = exit_atoi(arg->str, &atoi_err);
 	if (atoi_err == 0)
-	{
-		// handler(exit_status, NULL, "?", NULL);
 		exit_free(cmd, "exit", 'c', exit_status);
-	}
 	print_err("exit: ", arg->str, ": numeric argument required");
-	if (cmd->fdin != 0)
-		close(cmd->fdin);
-	if (cmd->fdout != 1)
-		close(cmd->fdout);
 	exit_free(cmd, NULL, 'c', atoi_err);
 }
