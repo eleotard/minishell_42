@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/20 21:06:24 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 16:02:56 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ void	*free_tabtab(char **tab);
 void	free_tabs_exit_free(t_cmd *cmd, char **env, char **argv, char *err);
 
 /*EXEC*/
-void    *parent(t_cmd *cmd);
-void	determine_exe_type(t_cmd *cmd);
+void    *parent(t_cmd *cmd, int res);
+void	determine_exe_type(t_cmd *cmd, char *path);
 
 char	**create_env_tab(t_env *env, int nb_of_lines);
 char	**get_exec_env(void);
@@ -213,5 +213,10 @@ void	close_all_fds(t_cmd *cmd, int opt);
 void	here_handler_sigint(int sig);
 int		ft_multi_pipe(t_cmd *cmd);
 void	check_children_status(t_cmd *tmp, int *res);
+
+void	is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
+int		get_cmd_size(t_cmd *cmd);
+void	close_child_fds(t_cmd *tmp, int previous, int in, int out);
+int		is_exe(t_cmd *cmd);
 
 #endif

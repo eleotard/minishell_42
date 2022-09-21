@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_copy.c                                        :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 14:57:13 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:51:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	get_cmd_size(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = cmd;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
-}
 
 void	parent_life(t_cmd *tmp, int previous, int in, int out)
 {
@@ -48,47 +33,11 @@ void	parent_life(t_cmd *tmp, int previous, int in, int out)
 		close(in);
 }
 
-void	dup_in_and_out(t_cmd *tmp)
-{
-	if (tmp->fdin != 0)
-		dup2(tmp->fdin, 0);
-	if (tmp->fdout != 1)
-		dup2(tmp->fdout, 1);
-}
-
-void	close_child_fds(t_cmd *tmp, int previous, int in, int out)
-{
-	t_token	*cur;
-
-	cur = tmp->redir;
-	while (cur)
-	{
-		if (cur->fd != 0)
-			close(cur->fd);
-		cur = cur->next;
-	}
-	if (tmp->fdin != previous)
-	{
-		if (previous != 0)
-			close(previous);
-	}
-	close(in);
-	if (!tmp->next || tmp->fdout != out)
-		close(out);
-}
-
 void	child_life(t_cmd *tmp, int previous, int in, int out)
 {
 	dup_in_and_out(tmp);
 	close_child_fds(tmp, previous, in, out);
-	determine_exe_type(tmp);
-}
-
-void	is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
-{
-	close_child_fds(tmp, previous, fd[0], fd[1]);
-	exec_built(tmp);
-	exit_free(cmd, NULL, 'c', get_exit());
+	determine_exe_type(tmp, NULL);
 }
 
 int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])
@@ -109,10 +58,8 @@ int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])
 	return (0);
 }
 
-void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2])
+void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 {
-	int	previous;
-
 	while (tmp)
 	{
 		if (pipe_and_attribute_fds(cmd, tmp, &previous, fd) == 1)
@@ -140,30 +87,6 @@ void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2])
 	}
 }
 
-void	check_children_status(t_cmd *tmp, int *res)
-{
-	int	status;
-	
-	while (tmp)
-	{
-		waitpid(tmp->pid, &status, 0);
-		tmp = tmp->next;
-	}
-	catch_signals();
-	if (WIFEXITED(status))
-		*res = WEXITSTATUS(status);
-	else
-	{
-		if (WIFSIGNALED(status))
-		{
-			*res = 128 + status;
-			write(1, "\n", 1);
-		}
-		else
-			*res = 127;
-	}
-}
-
 int	ft_multi_pipe(t_cmd *cmd)
 {
 	int		res;
@@ -173,7 +96,7 @@ int	ft_multi_pipe(t_cmd *cmd)
 	res = 0;
 	fd[0] = 0;
 	tmp = cmd;
-	multi_pipe_loop(cmd, tmp, fd);
+	multi_pipe_loop(cmd, tmp, fd, 0);
 	tmp = cmd;
 	check_children_status(tmp, &res);
 	return (res);
