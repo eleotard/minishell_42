@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 13:44:19 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:59:17 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,11 +245,8 @@ void	single_cmd_handler(t_cmd *cmd)
 	determine_exe_type(cmd);
 }
 
-void	*parent(t_cmd *cmd)
+void	*parent(t_cmd *cmd, int res)
 {
-	int res;
-	
-	res = 0;
 	if (!is_exe(cmd) && cmd->arg && cmd->arg->str && get_cmd_size(cmd) == 1)
 	{
 		print_err("command not found: ", cmd->arg->str, NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 12:48:46 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/09/20 21:21:44 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:06:27 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	
 	catch_signals();
 	if (!env || !env[0])
 	{

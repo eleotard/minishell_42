@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_utils.c                                       :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/01 17:33:22 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/21 15:50:53 by elpastor         ###   ########.fr       */
+/*   Created: 2022/09/21 15:35:02 by elpastor          #+#    #+#             */
+/*   Updated: 2022/09/21 15:39:18 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	*free_tabtab(char **tab)
+int	ft_isspace(char c)
 {
-	int	k;
-
-	k = 0;
-	while (tab[k])
-		k++;
-	while (k >= 0)
-	{
-		free(tab[k]);
-		k--;
-	}
-	free(tab);
-	return (NULL);
-}
-
-void	free_tabs_exit_free(t_cmd *cmd, char **env, char **argv, char *err)
-{
-	if (env)
-		free_tabtab(env);
-	if (argv)
-		free_tabtab(argv);
-	exit_free(cmd, err, 'c', 1);
+	if ((c >= '\t' && c <= '\r') || c == ' ')
+		return (1);
+	return (0);
 }

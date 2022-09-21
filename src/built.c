@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 13:57:38 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:39:34 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,38 +76,6 @@ void	ex_echo(t_cmd *cmd)
 	}
 	if (!n)
 		write(cmd->fdout, "\n", 1);
-}
-
-void	ex_cd(t_cmd *cmd, t_env *env)
-{
-	char	buf[4096];
-	char	*s;
-	int		f;
-
-	f = 0;
-	if (cmd->arg->next)
-		s = cmd->arg->next->str;
-	if (!env && (!s || s[0] == '~'))
-		return (print_err(NULL, "cd : HOME not set", NULL)); //set error code avec handler
-	if (env && (!s || !ft_strcmp(s, "~")))
-	{
-		s = ft_strdup(env->content);
-		f = 1;
-	}
-	if (env && s && s[0] == '~' && s[1])
-	{
-		s = ft_strjoin(env->content, &s[1]);
-		f = 1;
-	}
-	if (s && chdir(s) == -1)
-	{
-		handler(1, NULL, "?", NULL);
-		print_err("cd: ", s, ": Not a directory");
-	}
-	else
-		handler(3, NULL, "PWD", getcwd(buf, 4096));
-	if (f)
-		free(s);
 }
 
 void	ex_pwd(t_cmd *cmd)

@@ -6,31 +6,11 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:24:14 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/08 16:25:01 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:39:01 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		get_equal(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (!ft_isalpha(s[i]) && s[i++] != '_')
-		return (0);
-	while (s[i] && (ft_isalnum(s[i]) || s[i] == '=' || s[i] == '+' || s[i] == '_'))
-	{
-		if (s[i] == '=' && s[i - 1] == '+')
-			return (-1);
-		else if (s[i] == '=')
-			return (i);
-		i++;
-	}
-	return (0);
-}
 
 void	ex_port(t_cmd *cmd)
 {
@@ -41,21 +21,10 @@ void	ex_port(t_cmd *cmd)
 	if (cmd->arg->next)
 		arg = cmd->arg->next;
 	else
-		ex_env(cmd);
+		return (ex_env(cmd));
 	if (get_equal(arg->str) == 0)
 		return ;
-	if (get_equal(arg->str) == -1)
-	{
-		name = ft_substr(arg->str, 0, get_equal(arg->str));
-		content = ft_substr(arg->str, (get_equal(arg->str) + 2), ft_strlen(arg->str));
-		handler(5, NULL, name, content);
-	}
-	else
-	{
-		name = ft_substr(arg->str, 0, get_equal(arg->str));
-		content = ft_substr(arg->str, (get_equal(arg->str) + 1), ft_strlen(arg->str));
-		handler(3, NULL, name, content);
-	}
+	ex_port_substr(arg, &name, &content);
 	free(name);
 	free(content);
 }
@@ -87,4 +56,27 @@ void	ex_env(t_cmd *cmd)
 		write(cmd->fdout, "\n", 1);
 		env = env->next;
 	}
+}
+
+void	ex_cd(t_cmd *cmd, t_env *env)
+{
+	char	buf[4096];
+	char	*s;
+	int		f;
+
+	f = 0;
+	if (cmd->arg->next)
+		s = cmd->arg->next->str;
+	if (!env && (!s || s[0] == '~'))
+		return (print_err(NULL, "cd : HOME not set", NULL));
+	ex_cd_plus(env, &s, &f);
+	if (s && chdir(s) == -1)
+	{
+		handler(1, NULL, "?", NULL);
+		print_err("cd: ", s, ": Not a directory");
+	}
+	else
+		handler(3, NULL, "PWD", getcwd(buf, 4096));
+	if (f)
+		free(s);
 }

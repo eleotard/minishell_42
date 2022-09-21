@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 13:44:41 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:48:41 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -70,20 +69,21 @@ void	redir_plus(t_token *token, t_cmd *cmd_tmp, t_cmd *cmd, int *hd)
 	int	oui;
 
 	if (token->type == rout)
-		cmd_tmp->fdout = open(token->next->str, O_WRONLY |
-			O_CREAT | O_TRUNC, 0644);
+		cmd_tmp->fdout = open(token->next->str, O_WRONLY
+				| O_CREAT | O_TRUNC, 0644);
 	else if (token->type == rdout)
-		cmd_tmp->fdout = open(token->next->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		cmd_tmp->fdout = open(token->next->str, O_WRONLY
+				| O_CREAT | O_APPEND, 0644);
 	else if (token->type == rin)
 		cmd_tmp->fdin = open(token->next->str, O_RDONLY);
 	else if (token->type == rdin && *hd == 0)
 	{
-		oui = dup(0); //on copie l'entree standard
-		signal(SIGINT, here_handler_sigint); //on la ferme pour fermer l'entree de readline et donc fermer le heredoc
+		oui = dup(0);
+		signal(SIGINT, here_handler_sigint);
 		cmd_tmp->fdin = heredoc(cmd_tmp, cmd);
 		*hd = 1;
-		dup2(oui, 0); // comme elle a ete fermee on la remplace par sa copie et la retrouve en tant qu'entree standard normale
-		close(oui); //on ferme la copie
+		dup2(oui, 0);
+		close(oui);
 		catch_signals();
 	}
 	if (token->type == rout || token->type == rdout)
@@ -107,7 +107,6 @@ t_cmd	*redir(t_cmd *cmd, int hd)
 			redir_plus(token_tmp, cmd_tmp, cmd, &hd);
 			if (token_tmp->fd == -1)
 				return (file_err(token_tmp, cmd_tmp), NULL);
-
 			token_tmp = token_tmp->next;
 		}
 		cmd_tmp = cmd_tmp->next;

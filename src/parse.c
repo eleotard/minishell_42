@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/19 18:39:06 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:42:54 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,5 @@ void	create_cmd(t_token *token)
 		return ;
 	if (!redir(temp, 0))
 		return (ctfree(temp, NULL, 'c', 1));
-	parent(temp);
+	parent(temp, 0);
 }

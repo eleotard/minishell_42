@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 22:13:56 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/20 21:04:56 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:49:43 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,15 @@ void	print_err(char *file, char *s, char *s2)
 	ft_putstr_fd(s, 2);
 	ft_putstr_fd(s2, 2);
 	ft_putstr_fd("\n", 2);
+}
+
+void	print_env(t_env *env)
+{
+	printf("%d\n", !env);
+	while (env)
+	{
+		printf("name : %s, content : %s\n", env->name, env->content);
+		env = env->next;
+	}
+	printf("\n\n\n");
 }
