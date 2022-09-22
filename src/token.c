@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:55:11 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 17:21:55 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:27:23 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_token	*token_syntax(t_token *token)
 	}
 	if (!ret)
 		return (token);
-	print_err("paarse error near ", tmp->str, NULL);
+	print_err("parse error near ", tmp->str, NULL);
 	ctfree(token, NULL, 't', 2);
 	return (NULL);
 }
