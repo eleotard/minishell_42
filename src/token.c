@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:55:11 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 16:18:36 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:21:55 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,26 @@ t_token	*new_token(t_token *next, char *str, int type)
 	return (tmp);
 }
 
+int	no_cmd_in_pip(t_token *token)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		if (tmp->type == pip)
+		{
+			tmp = tmp->next;
+			while (tmp && tmp->type != pip && tmp->type != word)
+				tmp = tmp->next;
+			if (!tmp || tmp->type == pip)
+				return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 t_token	*token_syntax(t_token *token)
 {
 	t_token	*tmp;
@@ -67,7 +87,7 @@ t_token	*token_syntax(t_token *token)
 	}
 	if (!ret)
 		return (token);
-	print_err("parse error near ", tmp->str, NULL);
+	print_err("paarse error near ", tmp->str, NULL);
 	ctfree(token, NULL, 't', 2);
 	return (NULL);
 }

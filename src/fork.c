@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 17:47:04 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:39:32 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	determine_exe_type(t_cmd *cmd, char *path)
 		path = look_for_path(cmd);
 		if (!path)
 		{
-			print_err("command not found: ", cmd->arg->str, NULL);
+			if (cmd->arg)
+				print_err("command not found: ", cmd->arg->str, NULL);
 			exit_free(cmd, NULL, 'c', 127);
 		}
 		exec(cmd, path);
