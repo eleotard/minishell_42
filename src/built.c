@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 15:39:34 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:06:26 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,17 @@ void	ex_pwd(t_cmd *cmd)
 {
 	char	*s;
 	char	buf[4096];
+	t_env	*env;
 
 	s = getcwd(buf, 4096);
-	if (s)
+	if (!s)
+	{
+		env = handler(3, NULL, "PWD", NULL);
+		s = ft_strdup(env->content);
+		ft_putstr_fd(s, cmd->fdout);
+		free(s);
+	}
+	else
 		ft_putstr_fd(s, cmd->fdout);
 	write(cmd->fdout, "\n", 1);
 }

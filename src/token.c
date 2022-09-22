@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:55:11 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 15:51:46 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:18:36 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_token	*token_syntax(t_token *token)
 	while (tmp && !ret)
 	{
 		if ((tmp->type == pip && !tmp->next) || (tmp->type >= pip
-				&& tmp->next && tmp->next->type >= pip))
+				&& tmp->next && tmp->next->type == pip))
 			ret = 1;
 		if (!tmp->next)
 			break ;
