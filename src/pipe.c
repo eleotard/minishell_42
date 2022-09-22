@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 18:58:07 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:39:03 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])
 	}
 	return (0);
 }
+	//printf("\nprevious = %d\tfd[0] = %d\tfd[1] = %d\n", previous, fd[0], fd[1]);
+	//printf("cmd->fdin = %d\t, cmd->fdout = %d\n\n", tmp->fdin, tmp->fdout);
 
 void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 {
@@ -66,20 +68,11 @@ void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 		if (pipe_and_attribute_fds(cmd, tmp, &previous, fd) == 1)
 			break ;
 		if (tmp->fdin == -1 || tmp->fdout == -1)
-		{
-			printf("fd[0] = %d\tfd[1] = %d\n", fd[0], fd[1]);
-			printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
-			if (previous != 0)
-				close(previous);
-			//close(fd[1]);
-			tmp = tmp->next;
-		}
+			tmp = file_error_pipe(tmp, previous, fd);
 		else
 		{
 			if (tmp->fdin == 0)
 				tmp->fdin = previous;
-			printf("previous = %d\tfd[0] = %d\tfd[1] = %d\n", previous, fd[0], fd[1]);
-			printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
 			tmp->pid = fork();
 			if (tmp->pid < 0)
 			{
@@ -88,13 +81,7 @@ void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 			}
 			signal(SIGINT, SIG_IGN);
 			if (tmp->pid == 0)
-			{
-				reset_default_signals();
-				if (is_built(tmp))
-					is_built_pipe(cmd, tmp, previous, fd);
-				else
-					child_life(tmp, previous, fd[0], fd[1]);
-			}
+				pipe_exec_child(cmd, tmp, previous, fd);
 			if (tmp->pid != 0)
 				parent_life(tmp, previous, fd[0], fd[1]);
 			tmp = tmp->next;
@@ -113,6 +100,6 @@ int	ft_multi_pipe(t_cmd *cmd)
 	tmp = cmd;
 	multi_pipe_loop(cmd, tmp, fd, 0);
 	tmp = cmd;
-	check_children_status(tmp, &res);
+	check_children_status(cmd, tmp, &res);
 	return (res);
 }

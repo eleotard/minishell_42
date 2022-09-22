@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:11:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/22 18:30:30 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 21:14:02 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,30 @@ void	close_child_fds(t_cmd *tmp, int previous, int in, int out)
 		close(out);
 }
 
-void	check_children_status(t_cmd *tmp, int *res)
+void	check_children_status(t_cmd *cmd, t_cmd *tmp, int *res)
 {
-	int	status;
+	int		status;
+	t_cmd	*cmd_tmp;
 
 	while (tmp)
 	{
 		waitpid(tmp->pid, &status, 0);
 		tmp = tmp->next;
 	}
-	//fprintf(stderr, "err : %d\n", status);
 	catch_signals();
-	if (WIFEXITED(status))
-		*res = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status) && status != 13)
+	cmd_tmp = cmd;
+	while (cmd_tmp->next)
+		cmd_tmp = cmd_tmp->next;
+	if (cmd_tmp->fdin == -1 || cmd_tmp->fdout == -1)
+		*res = 1;
+	else
 	{
-		*res = 128 + status;
-		write(1, "\n", 1);
+		if (WIFEXITED(status))
+			*res = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status) && status != 13)
+		{
+			*res = 128 + status;
+			write(1, "\n", 1);
+		}	
 	}
 }

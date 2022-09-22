@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 17:51:10 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:43:40 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
 		else
 		{
 			close_all_fds(cmd, 1);
-			check_children_status(cmd, res);
+			check_children_status(cmd, cmd, res);
 		}
 	}
 }

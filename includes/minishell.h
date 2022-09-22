@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 19:21:14 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 22:38:34 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_hd
+{
+	int	here;
+	int	rdin;
+	int	rdout;
+}	t_hd;
+
 void			loop(void);
 
 /*PARSE*/
@@ -97,7 +104,7 @@ int				fd_heredoc(char *s, t_cmd *cmd);
 /*REDIR*/
 void			file_err(t_token *tmp, t_cmd *cmd);
 int				heredoc(t_cmd *temp, t_cmd *cmd);
-t_cmd			*redir(t_cmd *cmd, int hd);
+t_cmd			*redir(t_cmd *cmd);
 
 /*TOKEN*/
 void			print_token(t_token *token);
@@ -209,7 +216,6 @@ void			dup_in_and_out(t_cmd *tmp);
 void			close_all_fds(t_cmd *cmd, int opt);
 void			here_handler_sigint(int sig);
 int				ft_multi_pipe(t_cmd *cmd);
-void			check_children_status(t_cmd *tmp, int *res);
 
 int				get_cmd_size(t_cmd *cmd);
 
@@ -225,7 +231,8 @@ void			dup_in_and_out(t_cmd *tmp);
 void			close_all_fds(t_cmd *cmd, int opt);
 void			here_handler_sigint(int sig);
 int				ft_multi_pipe(t_cmd *cmd);
-void			check_children_status(t_cmd *tmp, int *res);
+
+void			check_children_status(t_cmd *cmd, t_cmd *tmp, int *res);
 
 int				get_cmd_size(t_cmd *cmd);
 
@@ -233,5 +240,11 @@ void			is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
 int				get_cmd_size(t_cmd *cmd);
 void			close_child_fds(t_cmd *tmp, int previous, int in, int out);
 int				is_exe(t_cmd *cmd);
+void			pipe_exec_child(t_cmd *cmd, t_cmd *tmp, int previous,
+					int fd[2]);
+void			child_life(t_cmd *tmp, int previous, int in, int out);
+void			init_hd_struct(t_hd *hd);
+void			set_error_hd(t_token *token_tmp, t_cmd *cmd_tmp, t_hd *hd);
+t_cmd			*file_error_pipe(t_cmd *tmp, int previous, int fd[2]);
 
 #endif
