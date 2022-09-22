@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 15:51:41 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:01:38 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parent_life(t_cmd *tmp, int previous, int in, int out)
 	cur = tmp->redir;
 	while (cur)
 	{
-		if (cur->fd != 0)
+		if (cur->fd != 0 && cur->fd != -1)
 			close(cur->fd);
 		cur = cur->next;
 	}
@@ -29,7 +29,7 @@ void	parent_life(t_cmd *tmp, int previous, int in, int out)
 		if (previous != 0)
 			close(previous);
 	}
-	if (!tmp->next)
+	if (!tmp->next || tmp->fdin == -1 || tmp->fdout == -1)
 		close(in);
 }
 
@@ -64,26 +64,40 @@ void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 	{
 		if (pipe_and_attribute_fds(cmd, tmp, &previous, fd) == 1)
 			break ;
-		if (tmp->fdin == 0)
-			tmp->fdin = previous;
-		tmp->pid = fork();
-		if (tmp->pid < 0)
+		//printf("fd[0] = %d\tfd[1] = %d\n", fd[0], fd[1]);
+		//printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
+		if (tmp->fdin == -1 || tmp->fdout == -1)
 		{
-			ctfree(cmd, "fork error", 'c', 1);
-			break ;
+			if (previous != 0)
+				close(previous);
+			close(fd[1]);
+			tmp = tmp->next;
 		}
-		signal(SIGINT, SIG_IGN);
-		if (tmp->pid == 0)
+		else
 		{
-			reset_default_signals();
-			if (is_built(tmp))
-				is_built_pipe(cmd, tmp, previous, fd);
-			else
-				child_life(tmp, previous, fd[0], fd[1]);
+			if (tmp->fdin == 0)
+				tmp->fdin = previous;
+			//printf("fd[0] = %d\tfd[1] = %d\n", fd[0], fd[1]);
+			//printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
+			tmp->pid = fork();
+			if (tmp->pid < 0)
+			{
+				ctfree(cmd, "fork error", 'c', 1);
+				break ;
+			}
+			signal(SIGINT, SIG_IGN);
+			if (tmp->pid == 0)
+			{
+				reset_default_signals();
+				if (is_built(tmp))
+					is_built_pipe(cmd, tmp, previous, fd);
+				else
+					child_life(tmp, previous, fd[0], fd[1]);
+			}
+			if (tmp->pid != 0)
+				parent_life(tmp, previous, fd[0], fd[1]);
+			tmp = tmp->next;
 		}
-		if (tmp->pid != 0)
-			parent_life(tmp, previous, fd[0], fd[1]);
-		tmp = tmp->next;
 	}
 }
 

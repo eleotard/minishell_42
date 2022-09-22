@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 15:48:41 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:28:24 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	close_all_fds(t_cmd *cmd, int opt)
 		cur = cmd_tmp->redir;
 		while (cur)
 		{
-			if (cur->fd != 0 && opt == 1)
+			if (cur->fd != 0 && cur->fd != -1 && opt == 1)
 				close(cur->fd);
 			else if (cur->fd != cmd_tmp->fdin && cur->fd != cmd_tmp->fdout
-				&& cur->fd != 0 && opt == 0)
+				&& cur->fd != 0 && cur->fd != -1 && opt == 0)
 				close(cur->fd);
 			cur = cur->next;
 		}
@@ -106,7 +106,9 @@ t_cmd	*redir(t_cmd *cmd, int hd)
 		{
 			redir_plus(token_tmp, cmd_tmp, cmd, &hd);
 			if (token_tmp->fd == -1)
+			{
 				return (file_err(token_tmp, cmd_tmp), NULL);
+			}
 			token_tmp = token_tmp->next;
 		}
 		cmd_tmp = cmd_tmp->next;
