@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 19:02:33 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:22:46 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	heredoc(t_cmd *temp, t_cmd *cmd)
 	char	*tmp;
 	t_token	*redir;
 
-	if (!temp || !cmd->redir)
+	if (!temp || !temp->redir)
 		return (-1);
 	tmp = NULL;
 	redir = temp->redir;
@@ -100,8 +100,8 @@ t_cmd	*redir(t_cmd *cmd, int hd)
 	cmd_tmp = cmd;
 	while (cmd_tmp)
 	{
-		token_tmp = cmd_tmp->redir;
 		hd = 0;
+		token_tmp = cmd_tmp->redir;
 		while (token_tmp)
 		{
 			redir_plus(token_tmp, cmd_tmp, cmd, &hd);

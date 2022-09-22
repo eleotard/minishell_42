@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 22:13:56 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/21 15:49:43 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:36:46 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,19 @@ void	print_tabtab(char **tab)
 
 void	print_err(char *file, char *s, char *s2)
 {
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putstr_fd(file, 2);
-	ft_putstr_fd(s, 2);
-	ft_putstr_fd(s2, 2);
-	ft_putstr_fd("\n", 2);
+	char	*error;
+
+	error = ft_strjoin_free("minishell: ", file, 3);
+	if (s)
+		error = ft_strjoin_free(error, s, 0);
+	if (s2)
+		error = ft_strjoin_free(error, s2, 0);
+	error = ft_strjoin_free(error, "\n", 0);
+	if (error)
+	{
+		ft_putstr_fd(error, 2);
+		free(error);
+	}
 }
 
 void	print_env(t_env *env)
