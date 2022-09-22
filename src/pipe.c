@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 17:01:38 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:58:07 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,26 @@ int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])
 
 void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 {
+	print_cmd(cmd);
 	while (tmp)
 	{
 		if (pipe_and_attribute_fds(cmd, tmp, &previous, fd) == 1)
 			break ;
-		//printf("fd[0] = %d\tfd[1] = %d\n", fd[0], fd[1]);
-		//printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
 		if (tmp->fdin == -1 || tmp->fdout == -1)
 		{
+			printf("fd[0] = %d\tfd[1] = %d\n", fd[0], fd[1]);
+			printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
 			if (previous != 0)
 				close(previous);
-			close(fd[1]);
+			//close(fd[1]);
 			tmp = tmp->next;
 		}
 		else
 		{
 			if (tmp->fdin == 0)
 				tmp->fdin = previous;
-			//printf("fd[0] = %d\tfd[1] = %d\n", fd[0], fd[1]);
-			//printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
+			printf("previous = %d\tfd[0] = %d\tfd[1] = %d\n", previous, fd[0], fd[1]);
+			printf("tmp->fdin = %d\ttmp->fdout = %d\n", tmp->fdin, tmp->fdout);
 			tmp->pid = fork();
 			if (tmp->pid < 0)
 			{

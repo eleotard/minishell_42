@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:55:43 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/21 15:56:19 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:47:55 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*look_for_path(t_cmd *cmd)
 	char	*cmd_path;
 
 	whole_path = handler(3, NULL, "PATH", NULL);
+	if (!whole_path)
+		return (NULL);
 	tab_of_paths = ft_split(whole_path->content, ':');
 	if (!tab_of_paths)
 		return (ctfree(cmd, "ERREUR MALLOC EXEC PATH", 'c', 1), NULL);

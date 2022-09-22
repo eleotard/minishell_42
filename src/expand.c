@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:14:53 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/19 18:25:17 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 17:35:28 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ char	*replace_str(char *str, char *new, int j, int i)
 	{
 		if (new)
 			free(new);
-		free(str);
+		if (str)
+			free(str);
 		return (NULL);
 	}
 	if (str)

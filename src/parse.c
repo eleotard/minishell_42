@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 16:54:39 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:52:00 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	tokenizing(t_token *token)
 		if (tmp->type == word || tmp->type == fout)
 		{
 			i = 0;
-			while (tmp->str && tmp->str[i])
+			while (tmp->str && tmp->str[0] && tmp->str[i])
 			{
 				if (tmp->str[i] == '$' && quot_status(tmp->str, i) != 1
 					&& (ft_isalnum(tmp->str[i + 1]) || tmp->str[i + 1] == '_'

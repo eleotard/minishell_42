@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 17:28:24 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:02:33 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ t_cmd	*redir(t_cmd *cmd, int hd)
 			redir_plus(token_tmp, cmd_tmp, cmd, &hd);
 			if (token_tmp->fd == -1)
 			{
-				return (file_err(token_tmp, cmd_tmp), NULL);
+				if (get_cmd_size(cmd) == 1)
+					return (file_err(token_tmp, cmd_tmp), NULL);
+				else
+					file_err(token_tmp, cmd_tmp);
 			}
 			token_tmp = token_tmp->next;
 		}

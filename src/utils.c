@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:23:56 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/21 15:59:40 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:27:08 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,16 @@ char	*join(char *base, char *read)
 
 void	ft_free_opt(char *s1, char *s2, int opt)
 {
-	if (opt == 0)
+	if (opt == 0 && s1)
 		free(s1);
-	else if (opt == 1)
+	else if (opt == 1 && s2)
 		free(s2);
 	else if (opt == 2)
 	{
-		free(s1);
-		free(s2);
+		if (s1)
+			free(s1);
+		if (s2)
+			free(s2);
 	}
 }
 

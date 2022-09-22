@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:11:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/22 17:47:11 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:30:30 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,13 @@ void	check_children_status(t_cmd *tmp, int *res)
 		waitpid(tmp->pid, &status, 0);
 		tmp = tmp->next;
 	}
+	//fprintf(stderr, "err : %d\n", status);
 	catch_signals();
-	if (WIFEXITED(status) && status)
+	if (WIFEXITED(status))
 		*res = WEXITSTATUS(status);
-	else
+	else if (WIFSIGNALED(status) && status != 13)
 	{
-		if (WIFSIGNALED(status))
-		{
-			*res = 128 + status;
-			write(1, "\n", 1);
-		}
-		else
-			*res = 127;
+		*res = 128 + status;
+		write(1, "\n", 1);
 	}
 }
