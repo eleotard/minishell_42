@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 16:12:49 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:40:03 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ void	ex_echo(t_cmd *cmd)
 	n = 0;
 	while (arg)
 	{
-		while (arg->str && !ft_strncmp(arg->str, "-n", 2) && only_n(&arg->str[1]))
-		{
+		if (arg->str && !ft_strncmp(arg->str, "-n", 2) && only_n(&arg->str[1]))
 			n = 1;
-			arg = arg->next;
-		}
-		if (arg && arg->str)
-		{
-			ft_putstr_fd(arg->str, cmd->fdout);
-			if (arg->next)
-				write(cmd->fdout, " ", 1);
-		}
+		else
+			break ;
+		arg = arg->next;
+	}
+	while (arg)
+	{
+		ft_putstr_fd(arg->str, cmd->fdout);
+		if (arg->next)
+			write(cmd->fdout, " ", 1);
 		arg = arg->next;
 	}
 	if (!n)

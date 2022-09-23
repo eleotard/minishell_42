@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:11:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/23 17:47:28 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:03:56 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
 {
 	close_child_fds(tmp, previous, fd[0], fd[1]);
+	//ctfree(cmd, NULL, 'c')
 	exec_built(tmp, cmd);
 	exit_free(cmd, NULL, 'c', get_exit());
 }

@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:14:53 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 15:28:43 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:50:15 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*expand_extra(char *tmp, char *util, int *j, int i)
 
 	while (ft_isalnum(tmp[*j]) || tmp[*j] == '_')
 		(*j)++;
-	util = ft_strndup(&tmp[i + 1], (*j - i + 1));
+	util = ft_strndup(&tmp[i + 1], (*j - i - 1));
 	if (util)
 	{
 		var = handler(3, NULL, util, NULL);
@@ -89,4 +89,14 @@ char	*replace_str(char *str, char *new, int j, int i)
 	if (str)
 		free(str);
 	return (tmp);
+}
+
+void	tokenizing_extra(t_token *tmp, int i)
+{
+	if (tmp->str[i] == '$' && quot_status(tmp->str, i) != 1
+		&& (ft_isalnum(tmp->str[i + 1]) || tmp->str[i + 1] == '_'
+			|| tmp->str[i + 1] == '?' || tmp->str[i + 1] == '$'))
+		tmp->str = expend_words(tmp->str, i);
+	else
+		tmp->str = del_unused_quot(tmp->str);
 }
