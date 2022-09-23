@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:14:53 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 17:50:15 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:37:53 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,4 @@ void	tokenizing_extra(t_token *tmp, int i)
 		&& (ft_isalnum(tmp->str[i + 1]) || tmp->str[i + 1] == '_'
 			|| tmp->str[i + 1] == '?' || tmp->str[i + 1] == '$'))
 		tmp->str = expend_words(tmp->str, i);
-	else
-		tmp->str = del_unused_quot(tmp->str);
 }
