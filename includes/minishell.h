@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 13:42:22 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:14:15 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ t_cmd			*pars_err(t_cmd *cmd);
 
 /*BUILT*/
 int				is_built(t_cmd *cmd);
-void			exec_built(t_cmd *cmd);
+void			exec_built(t_cmd *cmd_tmp, t_cmd *cmd);
 void			ex_echo(t_cmd *cmd);
 void			ex_pwd(t_cmd *cmd);
-void			ex_it(t_cmd *cmd);
+void			ex_it(t_cmd *cmd_tmp, t_cmd *cmd);
 
 /*ENV_BUILT*/
 void			ex_port_substr(t_token *arg, char **name, char **content);

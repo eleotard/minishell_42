@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 14:48:01 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:13:17 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	*parent(t_cmd *cmd, int res)
 	if (is_built(cmd) && get_cmd_size(cmd) == 1)
 	{
 		close_all_fds(cmd, 0);
-		exec_built(cmd);
+		exec_built(cmd, cmd);
 		return (ctfree(cmd, NULL, 'c', get_exit()), NULL);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:24:14 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 14:29:33 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:18:47 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,18 @@ void	ex_port(t_cmd *cmd)
 	else
 		return (ex_env(cmd));
 	if (get_equal(arg->str) == 0)
+	{
+		handler(1, NULL, "?", NULL);
 		return ;
-	ex_port_substr(arg, &name, &content);
-	free(name);
-	if (get_equal(arg->str) != -1)
-		free(content);
+	}
+	while (arg)
+	{
+		ex_port_substr(arg, &name, &content);
+		free(name);
+		if (get_equal(arg->str) != -1)
+			free(content);
+		arg = arg->next;
+	}
 }
 
 void	ex_unset(t_cmd *cmd)

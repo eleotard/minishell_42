@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 12:38:05 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:06:16 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void	tokenizing(t_token *token)
 					tmp->str = expend_words(tmp->str, i);
 				else
 					tmp->str = del_unused_quot(tmp->str);
-				i++;
+				if (tmp->str[i] != '$')
+					i++;
 			}
 		}
 		tmp = tmp->next;
@@ -138,5 +139,6 @@ void	create_cmd(t_token *token)
 		return ;
 	if (!redir(temp) && get_cmd_size(temp) == 1)
 		return (ctfree(temp, NULL, 'c', 1));
+	// print_cmd(temp);
 	parent(temp, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 16:06:26 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:12:49 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@ int	is_built(t_cmd *cmd)
 	return (0);
 }
 
-void	exec_built(t_cmd *cmd)
+void	exec_built(t_cmd *cmd_tmp, t_cmd *cmd)
 {
-	if (is_built(cmd) == 1)
-		ex_echo(cmd);
-	else if (is_built(cmd) == 2)
-		ex_cd(cmd, handler(3, NULL, "HOME", NULL));
-	else if (is_built(cmd) == 3)
-		ex_pwd(cmd);
-	else if (is_built(cmd) == 4)
-		ex_port(cmd);
-	else if (is_built(cmd) == 5)
-		ex_unset(cmd);
-	else if (is_built(cmd) == 6)
-		ex_env(cmd);
-	else if (is_built(cmd) == 7)
-		ex_it(cmd);
-	if (cmd->fdin != 0)
-		close(cmd->fdin);
-	if (cmd->fdout != 1)
-		close(cmd->fdout);
+	if (is_built(cmd_tmp) == 1)
+		ex_echo(cmd_tmp);
+	else if (is_built(cmd_tmp) == 2)
+		ex_cd(cmd_tmp, handler(3, NULL, "HOME", NULL));
+	else if (is_built(cmd_tmp) == 3)
+		ex_pwd(cmd_tmp);
+	else if (is_built(cmd_tmp) == 4)
+		ex_port(cmd_tmp);
+	else if (is_built(cmd_tmp) == 5)
+		ex_unset(cmd_tmp);
+	else if (is_built(cmd_tmp) == 6)
+		ex_env(cmd_tmp);
+	else if (is_built(cmd_tmp) == 7)
+		ex_it(cmd_tmp, cmd);
+	if (cmd_tmp->fdin != 0)
+		close(cmd_tmp->fdin);
+	if (cmd_tmp->fdout != 1)
+		close(cmd_tmp->fdout);
 }
 
 void	ex_echo(t_cmd *cmd)
@@ -64,9 +64,12 @@ void	ex_echo(t_cmd *cmd)
 	n = 0;
 	while (arg)
 	{
-		if (arg->str && !ft_strncmp(arg->str, "-n", 2) && only_n(&arg->str[1]))
+		while (arg->str && !ft_strncmp(arg->str, "-n", 2) && only_n(&arg->str[1]))
+		{
 			n = 1;
-		else
+			arg = arg->next;
+		}
+		if (arg && arg->str)
 		{
 			ft_putstr_fd(arg->str, cmd->fdout);
 			if (arg->next)
@@ -97,21 +100,21 @@ void	ex_pwd(t_cmd *cmd)
 	write(cmd->fdout, "\n", 1);
 }
 
-void	ex_it(t_cmd *cmd)
+void	ex_it(t_cmd *cmd_tmp, t_cmd *cmd)
 {
 	t_token			*arg;
 	long long int	exit_status;
 	int				atoi_err;
 
-	if (!cmd->arg->next)
+	if (!cmd_tmp->arg->next)
 		exit_free(cmd, NULL, 'c', 0);
-	if (cmd->arg->next->next)
+	if (cmd_tmp->arg->next->next)
 	{
 		print_err("exit: too many arguments", NULL, NULL);
 		handler(1, NULL, "?", NULL);
 		return ;
 	}
-	arg = cmd->arg->next;
+	arg = cmd_tmp->arg->next;
 	atoi_err = 0;
 	exit_status = exit_atoi(arg->str, &atoi_err);
 	if (atoi_err == 0)
