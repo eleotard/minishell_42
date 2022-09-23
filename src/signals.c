@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 15:36:25 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/21 14:41:51 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 19:37:12 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ void	catch_sigint(int sig)
 	rl_redisplay();
 }
 
-void	catch_sigquit(int sig)
-{
-	(void)sig;
-	ft_putstr_fd("\b\b  \b\b", 1);
-}
-
 void	reset_default_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
@@ -39,7 +33,7 @@ void	reset_default_signals(void)
 void	catch_signals(void)
 {
 	signal(SIGINT, catch_sigint);
-	signal(SIGQUIT, catch_sigquit);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	here_handler_sigint(int sig)

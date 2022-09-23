@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 18:37:49 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 19:12:35 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void			get_type(t_token *tmp, int *f_in, int *f_out);
 t_env			*init_env(t_env *next, char *name, char *content);
 t_cmd			*init_cmd(t_cmd *next, t_token *arg, t_token *redir);
 t_cmd			*cmd_init(t_cmd *res, t_token **tmp, t_token *token);
+void			mod_env_extra(t_env *tmp, char *content, int opt);
 
 /*GET*/
 int				get_equal(char *s);

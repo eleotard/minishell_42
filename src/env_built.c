@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:24:14 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 16:18:47 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 20:06:44 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	ex_cd(t_cmd *cmd, t_env *env)
 	f = 0;
 	if (cmd->arg->next)
 		s = cmd->arg->next->str;
+	else
+		s = NULL;
 	if (!env && (!s || s[0] == '~'))
 		return (print_err("cd : HOME not set", NULL, NULL));
 	ex_cd_plus(env, &s, &f);
