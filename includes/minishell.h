@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 19:12:35 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 22:16:31 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void			ex_it(t_cmd *cmd_tmp, t_cmd *cmd);
 
 /*ENV_BUILT*/
 void			ex_port_substr(t_token *arg, char **name, char **content);
-void			ex_port(t_cmd *cmd);
+void			ex_port(t_cmd *cmd, int ret);
 void			ex_unset(t_cmd *cmd);
 void			ex_env(t_cmd *cmd);
 void			ex_cd(t_cmd *cmd, t_env *env);

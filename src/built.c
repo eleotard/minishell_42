@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 19:57:48 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 22:32:43 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_built(t_cmd *cmd_tmp, t_cmd *cmd)
 	else if (is_built(cmd_tmp) == 3)
 		ex_pwd(cmd_tmp);
 	else if (is_built(cmd_tmp) == 4)
-		ex_port(cmd_tmp);
+		ex_port(cmd_tmp, 0);
 	else if (is_built(cmd_tmp) == 5)
 		ex_unset(cmd_tmp);
 	else if (is_built(cmd_tmp) == 6)
@@ -79,6 +79,7 @@ void	ex_echo(t_cmd *cmd)
 	}
 	if (!n)
 		write(cmd->fdout, "\n", 1);
+	handler(0, NULL, "?", NULL);
 }
 
 void	ex_pwd(t_cmd *cmd)
@@ -107,7 +108,7 @@ void	ex_it(t_cmd *cmd_tmp, t_cmd *cmd)
 	int				atoi_err;
 
 	if (!cmd_tmp->arg->next)
-		exit_free(cmd, NULL, 'c', 0);
+		exit_free(cmd, "exit", 'c', get_exit());
 	if (cmd_tmp->arg->next->next)
 	{
 		print_err("exit: too many arguments", NULL, NULL);

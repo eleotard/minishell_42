@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_built.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:24:14 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 20:06:44 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 22:30:20 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,32 @@ void	ex_port_substr(t_token *arg, char **name, char **content)
 	}
 }
 
-void	ex_port(t_cmd *cmd)
+void	ex_port(t_cmd *cmd, int ret)
 {
 	t_token	*arg;
 	char	*name;
 	char	*content;
 
-	if (cmd->arg->next)
-		arg = cmd->arg->next;
-	else
+	if (!cmd->arg->next)
 		return (ex_env(cmd));
-	if (get_equal(arg->str) == 0)
-	{
-		handler(1, NULL, "?", NULL);
-		return ;
-	}
+	arg = cmd->arg->next;
 	while (arg)
 	{
-		ex_port_substr(arg, &name, &content);
-		free(name);
-		if (get_equal(arg->str) != -1)
-			free(content);
+		if (get_equal(arg->str) == 0)
+		{
+			print_err("export: ", arg->str, ": not a valid identifier");
+			ret = 1;
+		}
+		else
+		{
+			ex_port_substr(arg, &name, &content);
+			free(name);
+			if (get_equal(arg->str) != -1)
+				free(content);
+		}
 		arg = arg->next;
 	}
+	handler(ret, NULL, "?", NULL);
 }
 
 void	ex_unset(t_cmd *cmd)
@@ -67,6 +70,7 @@ void	ex_unset(t_cmd *cmd)
 		handler(2, NULL, arg->str, NULL);
 		arg = arg->next;
 	}
+	handler(0, NULL, "?", NULL);
 }
 
 void	ex_env(t_cmd *cmd)
@@ -85,29 +89,5 @@ void	ex_env(t_cmd *cmd)
 		}
 		env = env->next;
 	}
-}
-
-void	ex_cd(t_cmd *cmd, t_env *env)
-{
-	char	buf[4096];
-	char	*s;
-	int		f;
-
-	f = 0;
-	if (cmd->arg->next)
-		s = cmd->arg->next->str;
-	else
-		s = NULL;
-	if (!env && (!s || s[0] == '~'))
-		return (print_err("cd : HOME not set", NULL, NULL));
-	ex_cd_plus(env, &s, &f);
-	if (s && chdir(s) == -1)
-	{
-		handler(1, NULL, "?", NULL);
-		print_err("cd: ", s, ": Not a directory");
-	}
-	else
-		handler(3, NULL, "PWD", getcwd(buf, 4096));
-	if (f)
-		free(s);
+	handler(0, NULL, "?", NULL);
 }

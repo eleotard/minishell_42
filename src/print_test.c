@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 22:13:56 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/23 19:56:13 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 22:38:09 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	print_err(char *file, char *s, char *s2)
 	error = ft_strjoin_free(error, "\n", 0);
 	if (error)
 	{
-		ft_putstr_fd(error, 2);
+		write(2, error, ft_strlen(error));
 		free(error);
 	}
 }

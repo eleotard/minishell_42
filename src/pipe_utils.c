@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:11:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/23 18:14:04 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 22:49:27 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ void	check_children_status(t_cmd *cmd, t_cmd *tmp, int *res)
 			*res = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status) && status != 13)
 		{
-			if (status == 131)
-				status = 3;
-			*res = 128 + status;
+			*res = 128 + WTERMSIG(status);
 			write(1, "\n", 1);
 		}	
 	}
