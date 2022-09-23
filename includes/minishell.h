@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 16:14:15 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:47:46 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,6 @@ void			child_life(t_cmd *tmp, int previous, int in, int out);
 void			init_hd_struct(t_hd *hd);
 void			set_error_hd(t_token *token_tmp, t_cmd *cmd_tmp, t_hd *hd);
 t_cmd			*file_error_pipe(t_cmd *tmp, int previous, int fd[2]);
+int				check_wrong_fd_waitpid(t_cmd *cmd);
 
 #endif

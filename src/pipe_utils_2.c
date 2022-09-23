@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 21:14:51 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/22 22:38:47 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:47:08 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,16 @@ t_cmd	*file_error_pipe(t_cmd *tmp, int previous, int fd[2])
 		close(fd[0]);
 	tmp = tmp->next;
 	return (tmp);
+}
+
+int	check_wrong_fd_waitpid(t_cmd *cmd)
+{
+	t_cmd	*cmd_tmp;
+
+	cmd_tmp = cmd;
+	while (cmd_tmp->next)
+		cmd_tmp = cmd_tmp->next;
+	if (cmd_tmp->fdin == -1 || cmd_tmp->fdout == -1)
+		return (1);
+	return (0);
 }

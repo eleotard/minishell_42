@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 16:13:17 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:39:32 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec(t_cmd *cmd, const char *pathname)
+void exec(t_cmd *cmd, const char *pathname)
 {
-	char	**argv;
-	char	**env;
-	int		nb_of_arg;
+	char **argv;
+	char **env;
+	int nb_of_arg;
 
 	env = get_exec_env();
 	if (!env)
@@ -35,7 +35,7 @@ void	exec(t_cmd *cmd, const char *pathname)
 	}
 }
 
-void	determine_exe_type(t_cmd *cmd, char *path)
+void determine_exe_type(t_cmd *cmd, char *path)
 {
 	if (!is_exe(cmd) && cmd->arg && cmd->arg->str)
 	{
@@ -64,7 +64,7 @@ void	determine_exe_type(t_cmd *cmd, char *path)
 	}
 }
 
-void	single_cmd_handler(t_cmd *cmd)
+void single_cmd_handler(t_cmd *cmd)
 {
 	reset_default_signals();
 	if (cmd->fdin != 0)
@@ -75,7 +75,7 @@ void	single_cmd_handler(t_cmd *cmd)
 	determine_exe_type(cmd, NULL);
 }
 
-void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
+void do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
 {
 	if (get_cmd_size(cmd) > 1)
 		*res = ft_multi_pipe(cmd);
@@ -85,7 +85,7 @@ void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
 		if (cmd->pid < 0)
 		{
 			*res = 2;
-			return ;
+			return;
 		}
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
@@ -99,7 +99,7 @@ void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
 	}
 }
 
-void	*parent(t_cmd *cmd, int res)
+void *parent(t_cmd *cmd, int res)
 {
 	if (!is_exe(cmd) && cmd->arg && cmd->arg->str && get_cmd_size(cmd) == 1)
 	{
