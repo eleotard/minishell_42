@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 17:50:01 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:35:29 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ void	tokenizing(t_token *token)
 			while (tmp->str && tmp->str[0] && tmp->str[i])
 			{
 				tokenizing_extra(tmp, i);
-				if (tmp->str && tmp->str[i] != '$')
-					i++;
+				i++;
 				if (i > (int)ft_strlen(tmp->str))
 					break ;
 			}
+			tmp->str = del_unused_quot(tmp->str);
 		}
 		tmp = tmp->next;
 	}
