@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 18:03:10 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:12:47 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,6 @@ typedef struct s_hd
 	int	here;
 	int	rdin;
 	int	rdout;
-
-
-
-	
 }	t_hd;
 
 void			loop(void);
