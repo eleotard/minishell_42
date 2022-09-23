@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 16:14:15 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:50:27 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,6 @@ typedef struct s_hd
 	int	here;
 	int	rdin;
 	int	rdout;
-
-
-
-	
 }	t_hd;
 
 void			loop(void);
@@ -251,5 +247,8 @@ void			child_life(t_cmd *tmp, int previous, int in, int out);
 void			init_hd_struct(t_hd *hd);
 void			set_error_hd(t_token *token_tmp, t_cmd *cmd_tmp, t_hd *hd);
 t_cmd			*file_error_pipe(t_cmd *tmp, int previous, int fd[2]);
+void			get_old_fd_heredoc(t_cmd *cmd, t_cmd *cmd_tmp, t_token *token,
+					t_hd *hd);
+void			tokenizing_extra(t_token *tmp, int i);
 
 #endif

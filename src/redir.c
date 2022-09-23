@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 13:19:57 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:43:19 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,6 @@ void	file_err(t_token *tmp, t_cmd *cmd)
 		print_err(tmp->next->str, ": Permission denied", NULL);
 	close_all_fds(cmd, 1);
 	handler(1, NULL, "?", NULL);
-}
-
-void	get_old_fd_heredoc(t_cmd *cmd, t_cmd *cmd_tmp, t_token *token, t_hd *hd)
-{
-	t_token	*current;
-
-	current = cmd->redir;
-	if (token->type == rdin && hd->here == 1)
-	{
-		while (current && current->type != rdin)
-			current = current->next;
-		if (current)
-			cmd_tmp->fdin = current->fd;
-	}
 }
 
 void	redir_plus(t_token *token, t_cmd *cmd_tmp, t_cmd *cmd, t_hd *hd)
