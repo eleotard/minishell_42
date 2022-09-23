@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 18:12:47 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 18:37:49 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void			split_words(char *s, int i, int start);
 void			tokenize(t_token *token);
 void			tokenizing(t_token *token);
 void			create_cmd(t_token *token);
+void			tokenizing_extra(t_token *tmp, int i);
 
 /*HANDLER*/
 t_env			*handler(int opt, char **env, char *name, char *val);
@@ -100,11 +101,15 @@ char			*heredoc_strcat(char *tmp, char *s);
 char			*read_heredoc(char *s, char *tmp);
 char			*heredoc_extra(t_token *redir, char *tmp, int ret);
 int				fd_heredoc(char *s, t_cmd *cmd);
+void			get_old_fd_heredoc(t_cmd *cmd, t_cmd *cmd_tmp, t_token *token,
+					t_hd *hd);
 
 /*REDIR*/
 void			file_err(t_token *tmp, t_cmd *cmd);
 int				heredoc(t_cmd *temp, t_cmd *cmd, t_hd *hd);
 t_cmd			*redir(t_cmd *cmd);
+void			init_hd_struct(t_hd *hd);
+void			set_error_hd(t_token *token_tmp, t_cmd *cmd_tmp, t_hd *hd);
 
 /*TOKEN*/
 void			print_token(t_token *token);
@@ -129,6 +134,7 @@ char			*get_name(char *env);
 char			*get_content(char *env);
 int				get_nbpipe(t_cmd *cmd);
 int				get_exit(void);
+int				get_cmd_size(t_cmd *cmd);
 
 /*EXPAND*/
 char			*expand_special(char *tmp, char *util, int *j);
@@ -177,22 +183,36 @@ void			free_tabs_exit_free(t_cmd *cmd,
 					char **env, char **argv, char *err);
 
 /*EXEC*/
-void			*parent(t_cmd *cmd, int res);
 void			determine_exe_type(t_cmd *cmd, char *path);
+int				find_nb_of_args(t_cmd *cmd);
 char			**create_env_tab(t_env *env, int nb_of_lines);
 char			**get_exec_env(void);
 char			**get_exec_args(t_cmd *cmd, int nb_of_arg);
-int				find_slash(t_cmd *cmd);
-int				is_built(t_cmd *cmd);
-int				find_nb_of_args(t_cmd *cmd);
 void			exec(t_cmd *cmd, const char *pathname);
-void			exec_cmd_without_redir(t_cmd *cmd,
-					const char *pathname, int nb_of_arg, char **env);
+int				is_built(t_cmd *cmd);
+void			is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
+int				ft_multi_pipe(t_cmd *cmd);
+void			dup_in_and_out(t_cmd *tmp);
 
-/*PIPES*/
+/*PARENT*/
+void			*parent(t_cmd *cmd, int res);
+int				find_slash(t_cmd *cmd);
+int				is_exe(t_cmd *cmd);
+t_cmd			*file_error_pipe(t_cmd *tmp, int previous, int fd[2]);
+int				check_wrong_fd_waitpid(t_cmd *cmd);
+void			close_all_fds(t_cmd *cmd, int opt);
+
+/*CHILD*/
+void			pipe_exec_child(t_cmd *cmd, t_cmd *tmp, int previous,
+					int fd[2]);
+void			child_life(t_cmd *tmp, int previous, int in, int out);
+void			close_child_fds(t_cmd *tmp, int previous, int in, int out);
+void			check_children_status(t_cmd *cmd, t_cmd *tmp, int *res);
 
 /*SIGNALS*/
 void			catch_signals(void);
+void			reset_default_signals(void);
+void			here_handler_sigint(int sig);
 
 /*PATHS*/
 char			*find_path(t_cmd *cmd, char **tab_of_paths);
@@ -209,47 +229,5 @@ char			*ft_strjoin_free(char *s1, char *s2, int opt);
 void			print_tabtab(char **tab);
 void			print_err(char *file, char *s, char *s2);
 void			print_env(t_env *env);
-
-int				get_exit(void);
-void			reset_default_signals(void);
-
-void			dup_in_and_out(t_cmd *tmp);
-void			close_all_fds(t_cmd *cmd, int opt);
-void			here_handler_sigint(int sig);
-int				ft_multi_pipe(t_cmd *cmd);
-
-int				get_cmd_size(t_cmd *cmd);
-
-/*TEST PRINTS*/
-void			print_tabtab(char **tab);
-void			print_err(char *file, char *s, char *s2);
-void			print_env(t_env *env);
-
-int				get_exit(void);
-void			reset_default_signals(void);
-
-void			dup_in_and_out(t_cmd *tmp);
-void			close_all_fds(t_cmd *cmd, int opt);
-void			here_handler_sigint(int sig);
-int				ft_multi_pipe(t_cmd *cmd);
-
-void			check_children_status(t_cmd *cmd, t_cmd *tmp, int *res);
-
-int				get_cmd_size(t_cmd *cmd);
-
-void			is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
-int				get_cmd_size(t_cmd *cmd);
-void			close_child_fds(t_cmd *tmp, int previous, int in, int out);
-int				is_exe(t_cmd *cmd);
-void			pipe_exec_child(t_cmd *cmd, t_cmd *tmp, int previous,
-					int fd[2]);
-void			child_life(t_cmd *tmp, int previous, int in, int out);
-void			init_hd_struct(t_hd *hd);
-void			set_error_hd(t_token *token_tmp, t_cmd *cmd_tmp, t_hd *hd);
-t_cmd			*file_error_pipe(t_cmd *tmp, int previous, int fd[2]);
-void			get_old_fd_heredoc(t_cmd *cmd, t_cmd *cmd_tmp, t_token *token,
-					t_hd *hd);
-void			tokenizing_extra(t_token *tmp, int i);
-int				check_wrong_fd_waitpid(t_cmd *cmd);
 
 #endif
