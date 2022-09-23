@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:03:24 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/21 15:44:59 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:43:29 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,21 @@ long long int	exit_atoi_plus(char *s, int i, int neg, int *err)
 	return (nb * neg);
 }
 
-void	ex_port_substr(t_token *arg, char **name, char **content)
+int	get_equal2(char *s)
 {
-	if (get_equal(arg->str) == -1)
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (!ft_isalpha(s[i]) && s[i++] != '_')
+		return (0);
+	while (s[i] && (ft_isalnum(s[i]) || s[i] == '='
+			|| s[i] == '+' || s[i] == '_'))
 	{
-		*name = ft_substr(arg->str, 0, get_equal(arg->str));
-		*content = ft_substr(arg->str, (get_equal(arg->str) + 2),
-				ft_strlen(arg->str));
-		handler(5, NULL, *name, *content);
+		if (s[i] == '+')
+			return (i);
+		i++;
 	}
-	else
-	{
-		*name = ft_substr(arg->str, 0, get_equal(arg->str));
-		*content = ft_substr(arg->str, (get_equal(arg->str) + 1),
-				ft_strlen(arg->str));
-		handler(3, NULL, *name, *content);
-	}
+	return (0);
 }

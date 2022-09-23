@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 17:51:10 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:48:01 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,13 @@ void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
 			return ;
 		}
 		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		if (cmd->pid == 0)
 			single_cmd_handler(cmd);
 		else
 		{
 			close_all_fds(cmd, 1);
-			check_children_status(cmd, res);
+			check_children_status(cmd, cmd, res);
 		}
 	}
 }

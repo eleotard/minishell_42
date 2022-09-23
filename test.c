@@ -1,3 +1,4 @@
-djkaJHDJ G:wq
-
-
+int main()
+{
+	return 0;
+}

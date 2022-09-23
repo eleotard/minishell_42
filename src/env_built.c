@@ -6,11 +6,29 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:24:14 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 18:13:56 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:29:33 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ex_port_substr(t_token *arg, char **name, char **content)
+{
+	if (get_equal(arg->str) == -1)
+	{
+		*name = ft_substr(arg->str, 0, get_equal2(arg->str));
+		*content = ft_substr(arg->str, (get_equal2(arg->str) + 2),
+				ft_strlen(arg->str));
+		handler(5, NULL, *name, *content);
+	}
+	else
+	{
+		*name = ft_substr(arg->str, 0, get_equal(arg->str));
+		*content = ft_substr(arg->str, (get_equal(arg->str) + 1),
+				ft_strlen(arg->str));
+		handler(3, NULL, *name, *content);
+	}
+}
 
 void	ex_port(t_cmd *cmd)
 {
@@ -26,7 +44,8 @@ void	ex_port(t_cmd *cmd)
 		return ;
 	ex_port_substr(arg, &name, &content);
 	free(name);
-	free(content);
+	if (get_equal(arg->str) != -1)
+		free(content);
 }
 
 void	ex_unset(t_cmd *cmd)
@@ -50,10 +69,13 @@ void	ex_env(t_cmd *cmd)
 	env = handler(3, NULL, NULL, NULL);
 	while (env)
 	{
-		ft_putstr_fd(env->name, cmd->fdout);
-		write(cmd->fdout, "=", 1);
-		ft_putstr_fd(env->content, cmd->fdout);
-		write(cmd->fdout, "\n", 1);
+		if (env->content)
+		{
+			ft_putstr_fd(env->name, cmd->fdout);
+			write(cmd->fdout, "=", 1);
+			ft_putstr_fd(env->content, cmd->fdout);
+			write(cmd->fdout, "\n", 1);
+		}
 		env = env->next;
 	}
 }

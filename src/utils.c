@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:23:56 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/21 18:27:08 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:21:33 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ char	*ft_strjoin_free(char *s1, char *s2, int opt)
 	char	*dst;
 
 	if (!s1 || !s2)
+	{
+		ft_free_opt(s1, s2, opt);
 		return (NULL);
+	}
 	dst = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (dst == NULL)
 		return (NULL);

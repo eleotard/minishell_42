@@ -15,6 +15,8 @@ SRCS =	src/minishell.c src/expand.c src/init.c src/parse.c \
 		src/pipe_utils.c \
 		src/exe_utils.c \
 		src/path.c \
+		src/pipe_utils_2.c \
+		src/redir_utils.c \
 
 OBJS =	${SRCS:.c=.o}
 

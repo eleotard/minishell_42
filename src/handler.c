@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 15:33:29 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 16:08:08 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:00:49 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static t_env	*mod_env(t_env **env, char *name, char *content, int opt)
 		if (!ft_strcmp(name, tmp->name))
 		{
 			if (content && opt == 5)
-				tmp->content = ft_strjoin_free(tmp->content, content, 1);
+				tmp->content = ft_strjoin_free(tmp->content, content, 2);
 			else if (content && opt == 3)
 			{
 				free(tmp->content);

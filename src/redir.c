@@ -6,13 +6,13 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:10:01 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 19:22:46 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:19:57 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc(t_cmd *temp, t_cmd *cmd)
+int	heredoc(t_cmd *temp, t_cmd *cmd, t_hd *hd)
 {
 	char	*tmp;
 	t_token	*redir;
@@ -27,6 +27,8 @@ int	heredoc(t_cmd *temp, t_cmd *cmd)
 			tmp = heredoc_extra(redir, tmp, 0);
 		redir = redir->next;
 	}
+	if (hd->rdin == 1)
+		return (cmd->fdin);
 	if (!tmp)
 		tmp = ft_strdup("");
 	return (fd_heredoc(tmp, cmd));
@@ -64,43 +66,59 @@ void	file_err(t_token *tmp, t_cmd *cmd)
 	handler(1, NULL, "?", NULL);
 }
 
-void	redir_plus(t_token *token, t_cmd *cmd_tmp, t_cmd *cmd, int *hd)
+void	get_old_fd_heredoc(t_cmd *cmd, t_cmd *cmd_tmp, t_token *token, t_hd *hd)
+{
+	t_token	*current;
+
+	current = cmd->redir;
+	if (token->type == rdin && hd->here == 1)
+	{
+		while (current && current->type != rdin)
+			current = current->next;
+		if (current)
+			cmd_tmp->fdin = current->fd;
+	}
+}
+
+void	redir_plus(t_token *token, t_cmd *cmd_tmp, t_cmd *cmd, t_hd *hd)
 {
 	int	oui;
 
-	if (token->type == rout)
+	if (token->type == rout && hd->rdout == 0)
 		cmd_tmp->fdout = open(token->next->str, O_WRONLY
 				| O_CREAT | O_TRUNC, 0644);
-	else if (token->type == rdout)
+	else if (token->type == rdout && hd->rdout == 0)
 		cmd_tmp->fdout = open(token->next->str, O_WRONLY
 				| O_CREAT | O_APPEND, 0644);
-	else if (token->type == rin)
+	else if (token->type == rin && hd->rdin == 0)
 		cmd_tmp->fdin = open(token->next->str, O_RDONLY);
-	else if (token->type == rdin && *hd == 0)
+	get_old_fd_heredoc(cmd, cmd_tmp, token, hd);
+	if (token->type == rdin && hd->here == 0)
 	{
 		oui = dup(0);
 		signal(SIGINT, here_handler_sigint);
-		cmd_tmp->fdin = heredoc(cmd_tmp, cmd);
-		*hd = 1;
+		cmd_tmp->fdin = heredoc(cmd_tmp, cmd, hd);
+		hd->here = 1;
 		dup2(oui, 0);
 		close(oui);
 		catch_signals();
 	}
-	if (token->type == rout || token->type == rdout)
+	if ((token->type == rout || token->type == rdout) && hd->rdout == 0)
 		token->fd = cmd_tmp->fdout;
-	else if (token->type == rin || token->type == rdin)
+	else if ((token->type == rin || token->type == rdin) && hd->rdin == 0)
 		token->fd = cmd_tmp->fdin;
 }
 
-t_cmd	*redir(t_cmd *cmd, int hd)
+t_cmd	*redir(t_cmd *cmd)
 {
 	t_cmd	*cmd_tmp;
 	t_token	*token_tmp;
+	t_hd	hd;
 
 	cmd_tmp = cmd;
 	while (cmd_tmp)
 	{
-		hd = 0;
+		init_hd_struct(&hd);
 		token_tmp = cmd_tmp->redir;
 		while (token_tmp)
 		{
@@ -110,7 +128,7 @@ t_cmd	*redir(t_cmd *cmd, int hd)
 				if (get_cmd_size(cmd) == 1)
 					return (file_err(token_tmp, cmd_tmp), NULL);
 				else
-					file_err(token_tmp, cmd_tmp);
+					set_error_hd(token_tmp, cmd_tmp, &hd);
 			}
 			token_tmp = token_tmp->next;
 		}

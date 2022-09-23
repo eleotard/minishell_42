@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 17:52:00 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:38:05 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,7 @@ void	create_cmd(t_token *token)
 	}
 	if (!temp || !pars_err(temp))
 		return ;
-
-	//redir(temp, 0);
-	if (!redir(temp, 0) && get_cmd_size(temp) == 1)
+	if (!redir(temp) && get_cmd_size(temp) == 1)
 		return (ctfree(temp, NULL, 'c', 1));
 	parent(temp, 0);
 }
