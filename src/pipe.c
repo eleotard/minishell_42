@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/22 22:39:03 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:33:59 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])
 
 void	multi_pipe_loop(t_cmd *cmd, t_cmd *tmp, int fd[2], int previous)
 {
-	print_cmd(cmd);
 	while (tmp)
 	{
 		if (pipe_and_attribute_fds(cmd, tmp, &previous, fd) == 1)
