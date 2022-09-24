@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:14:53 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 18:37:53 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:38:55 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*expend_words(char *s, int i)
 	tmp = replace_str(tmp, util, j, i);
 	if (!tmp)
 		return (NULL);
-	return (del_unused_quot(tmp));
+	return (tmp);
 }
 
 char	*replace_str(char *str, char *new, int j, int i)
@@ -89,12 +89,4 @@ char	*replace_str(char *str, char *new, int j, int i)
 	if (str)
 		free(str);
 	return (tmp);
-}
-
-void	tokenizing_extra(t_token *tmp, int i)
-{
-	if (tmp->str[i] == '$' && quot_status(tmp->str, i) != 1
-		&& (ft_isalnum(tmp->str[i + 1]) || tmp->str[i + 1] == '_'
-			|| tmp->str[i + 1] == '?' || tmp->str[i + 1] == '$'))
-		tmp->str = expend_words(tmp->str, i);
 }
