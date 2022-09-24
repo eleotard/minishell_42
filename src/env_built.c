@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 16:24:14 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 22:30:20 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/24 16:09:36 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ void	ex_port_substr(t_token *arg, char **name, char **content)
 	}
 }
 
+int	export_test_error(t_token *arg)
+{
+	if (get_equal(arg->str) == 0)
+	{
+		if (!ft_isalpha(arg->str[0]) && arg->str[0] != '_')
+		{
+			print_err("export: ", arg->str, ": not a valid identifier");
+			return (1);
+		}
+	}
+	return (0);
+}
+
 void	ex_port(t_cmd *cmd, int ret)
 {
 	t_token	*arg;
@@ -41,11 +54,8 @@ void	ex_port(t_cmd *cmd, int ret)
 	arg = cmd->arg->next;
 	while (arg)
 	{
-		if (get_equal(arg->str) == 0)
-		{
-			print_err("export: ", arg->str, ": not a valid identifier");
+		if (export_test_error(arg))
 			ret = 1;
-		}
 		else
 		{
 			ex_port_substr(arg, &name, &content);
@@ -61,16 +71,24 @@ void	ex_port(t_cmd *cmd, int ret)
 void	ex_unset(t_cmd *cmd)
 {
 	t_token	*arg;
+	int		ret;
 
+	ret = 0;
 	if (!cmd->arg->next)
 		return ;
 	arg = cmd->arg->next;
 	while (arg)
 	{
-		handler(2, NULL, arg->str, NULL);
+		if (!ft_isalpha(arg->str[0]) && arg->str[0] != '_')
+		{
+			print_err("export: ", arg->str, ": not a valid identifier");
+			ret = 1;
+		}
+		else
+			handler(2, NULL, arg->str, NULL);
 		arg = arg->next;
 	}
-	handler(0, NULL, "?", NULL);
+	handler(ret, NULL, "?", NULL);
 }
 
 void	ex_env(t_cmd *cmd)
