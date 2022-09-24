@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 21:44:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/23 21:48:33 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/24 19:05:15 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,26 @@ static int	check_nb_arg_cd(t_cmd *cmd)
 	return (0);
 }
 
+void	actualize_pwd_and_old_pwd(void)
+{
+	static int	i;
+	char		buf[4096];
+
+	if (i == 0)
+	{
+		handler(3, NULL, "PWD", getcwd(buf, 4096));
+		i++;
+		return ;
+	}
+	else
+	{
+		handler(3, NULL, "OLDPWD", handler(3, NULL, "PWD", NULL)->content);
+		handler(3, NULL, "PWD", getcwd(buf, 4096));
+	}	
+}
+
 void	ex_cd(t_cmd *cmd, t_env *env)
 {
-	char	buf[4096];
 	char	*s;
 	int		f;
 
@@ -42,10 +59,12 @@ void	ex_cd(t_cmd *cmd, t_env *env)
 	if (s && chdir(s) == -1)
 	{
 		handler(1, NULL, "?", NULL);
-		print_err("cd: ", s, ": Not a directory");
+		print_err("cd: ", s, ": No such file or directory");
 	}
 	else
-		handler(3, NULL, "PWD", getcwd(buf, 4096));
+	{
+		actualize_pwd_and_old_pwd();
+	}
 	if (f)
 		free(s);
 }
