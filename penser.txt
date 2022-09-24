@@ -84,3 +84,8 @@ cat < truc auiexste pas
 
 git add -u pour ajouter que les trucs modified
 
+cat < dev/urandom
+
+chiffre derreur pas bon pour cat coupe par un ctrl \
+exit | exit qui leak
+export exit status quand un rate = 1
