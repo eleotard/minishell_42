@@ -1,5 +1,8 @@
 L'enfant fait une copie de tout ce quil y a dans le parent y compris les trucs malloc, du coup il faut bien free tout ce qu'il y a de malloc en lui avant de exit
 
+
+:wq
+
 Conseil d'Elie :
 Quand tu fais un heredoc << tu readline sur l'entree standard et tu recuperes ce qui a ete marque dans un fichier que tu crees avec open
     Ensuite si tu veux le cat par exemple, le "curseur" sera a la fin quand tu voudras le lire, du coup ca va juste rien lire
@@ -84,3 +87,8 @@ cat < truc auiexste pas
 
 git add -u pour ajouter que les trucs modified
 
+cat < dev/urandom
+
+chiffre derreur pas bon pour cat coupe par un ctrl \
+exit | exit qui leak
+export exit status quand un rate = 1
