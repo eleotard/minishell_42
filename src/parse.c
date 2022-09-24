@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 18:40:54 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:54:39 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ void	tokenizing(t_token *token)
 					tmp->str = expend_words(tmp->str, i);
 				if (tmp->str[i] != '$' || quot_status(tmp->str, i) == 1)
 					i++;
+				if (i > (int)ft_strlen(tmp->str))
+					break ;
 			}
 		}
 		tmp = tmp->next;
 	}
-	tmp = token;
-	del_unused_quot_plus(tmp);
 	if (!token)
 		return ;
-	create_cmd(token);
+	create_cmd(del_unused_quot_plus(token));
 }
 
 void	create_cmd(t_token *token)

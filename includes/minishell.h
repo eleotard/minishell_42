@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 18:41:39 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:54:53 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,6 @@ void			print_env(t_env *env);
 
 /*PARSE UTILS*/
 int				ft_isalnumplus(char c);
-void			del_unused_quot_plus(t_token *tmp);
+t_token			*del_unused_quot_plus(t_token *token);
 
 #endif

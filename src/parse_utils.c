@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 18:39:22 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 18:41:02 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:54:23 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ int	ft_isalnumplus(char c)
 	return (0);
 }
 
-void	del_unused_quot_plus(t_token *tmp)
+t_token	*del_unused_quot_plus(t_token *token)
 {
+	t_token	*tmp;
+
+	tmp = token;
 	while (tmp)
 	{
 		if (tmp->type == word || tmp->type == fout)
@@ -29,4 +32,5 @@ void	del_unused_quot_plus(t_token *tmp)
 		}
 		tmp = tmp->next;
 	}
+	return (token);
 }
