@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 21:44:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/24 19:05:15 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/24 19:15:14 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	check_nb_arg_cd(t_cmd *cmd)
 
 void	actualize_pwd_and_old_pwd(void)
 {
-	static int	i;
+	static int	i = 0;
 	char		buf[4096];
 
 	if (i == 0)
@@ -62,9 +62,7 @@ void	ex_cd(t_cmd *cmd, t_env *env)
 		print_err("cd: ", s, ": No such file or directory");
 	}
 	else
-	{
 		actualize_pwd_and_old_pwd();
-	}
 	if (f)
 		free(s);
 }

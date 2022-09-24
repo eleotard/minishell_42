@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 22:32:43 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/24 19:11:43 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,12 @@ void	ex_pwd(t_cmd *cmd)
 	if (!s)
 	{
 		env = handler(3, NULL, "PWD", NULL);
-		s = ft_strdup(env->content);
-		ft_putstr_fd(s, cmd->fdout);
-		free(s);
+		if (env)
+		{
+			s = ft_strdup(env->content);
+			ft_putstr_fd(s, cmd->fdout);
+			free(s);
+		}
 	}
 	else
 		ft_putstr_fd(s, cmd->fdout);
