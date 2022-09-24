@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 16:53:21 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 18:35:29 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/24 18:40:54 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,17 +95,19 @@ void	tokenizing(t_token *token)
 		if (tmp->type == word || tmp->type == fout)
 		{
 			i = 0;
-			while (tmp->str && tmp->str[0] && tmp->str[i])
+			while (tmp->str && tmp->str[i])
 			{
-				tokenizing_extra(tmp, i);
-				i++;
-				if (i > (int)ft_strlen(tmp->str))
-					break ;
+				if (tmp->str[i] == '$' && quot_status(tmp->str, i) != 1
+					&& ft_isalnumplus(tmp->str[i + 1]))
+					tmp->str = expend_words(tmp->str, i);
+				if (tmp->str[i] != '$' || quot_status(tmp->str, i) == 1)
+					i++;
 			}
-			tmp->str = del_unused_quot(tmp->str);
 		}
 		tmp = tmp->next;
 	}
+	tmp = token;
+	del_unused_quot_plus(tmp);
 	if (!token)
 		return ;
 	create_cmd(token);
