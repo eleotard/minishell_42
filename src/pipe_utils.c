@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 15:11:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/23 22:49:27 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:02:24 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
 {
-	close_child_fds(tmp, previous, fd[0], fd[1]);
+	close_child_fds(tmp, previous, fd);
 	exec_built(tmp, cmd);
 	exit_free(cmd, NULL, 'c', get_exit());
 }
@@ -42,7 +42,7 @@ void	dup_in_and_out(t_cmd *tmp)
 		dup2(tmp->fdout, 1);
 }
 
-void	close_child_fds(t_cmd *tmp, int previous, int in, int out)
+void	close_child_fds(t_cmd *tmp, int previous, int fd[2])
 {
 	t_token	*cur;
 
@@ -58,9 +58,9 @@ void	close_child_fds(t_cmd *tmp, int previous, int in, int out)
 		if (previous != 0)
 			close(previous);
 	}
-	close(in);
-	if (!tmp->next || tmp->fdout != out)
-		close(out);
+	close(fd[0]);
+	if (!tmp->next || tmp->fdout != fd[1])
+		close(fd[1]);
 }
 
 void	check_children_status(t_cmd *cmd, t_cmd *tmp, int *res)

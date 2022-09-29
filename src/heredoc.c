@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:31:27 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 18:33:33 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/29 22:15:20 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ char	*read_heredoc(char *s, char *tmp)
 char	*heredoc_extra(t_token *redir, char *tmp, int ret)
 {
 	char	*s;
+	int		i;
 
+	i = 1;
 	s = NULL;
 	if (tmp)
 	{
@@ -87,8 +89,12 @@ char	*heredoc_extra(t_token *redir, char *tmp, int ret)
 		s = readline("\e[1m\e[31m\002""> ""\001\e[0m\002");
 		if (s && ft_strcmp(redir->str, s) != 0)
 			tmp = read_heredoc(s, tmp);
-		else
-			ret = 1;
+		if (!s)
+		{
+			heredoc_err(i, redir->str);
+			break ;
+		}
+		i++;
 	}
 	if (s)
 		free(s);

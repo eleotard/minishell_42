@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:37:42 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 19:11:43 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:30:13 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ void	ex_it(t_cmd *cmd_tmp, t_cmd *cmd)
 	int				atoi_err;
 
 	if (!cmd_tmp->arg->next)
+	{
+		rl_clear_history();
 		exit_free(cmd, "exit", 'c', get_exit());
+	}
 	if (cmd_tmp->arg->next->next)
 	{
 		print_err("exit: too many arguments", NULL, NULL);
@@ -124,5 +127,6 @@ void	ex_it(t_cmd *cmd_tmp, t_cmd *cmd)
 	if (atoi_err == 0)
 		exit_free(cmd, "exit", 'c', exit_status);
 	print_err("exit: ", arg->str, ": numeric argument required");
+	rl_clear_history();
 	exit_free(cmd, NULL, 'c', atoi_err);
 }

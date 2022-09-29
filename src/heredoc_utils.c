@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_utils.c                                       :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/01 17:33:22 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/29 22:31:37 by elsie            ###   ########.fr       */
+/*   Created: 2022/09/29 22:10:53 by elsie             #+#    #+#             */
+/*   Updated: 2022/09/29 22:16:38 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	*free_tabtab(char **tab)
+void	heredoc_err(int i, char *eof)
 {
-	int	k;
-
-	k = 0;
-	while (tab[k])
-		k++;
-	while (k >= 0)
-	{
-		free(tab[k]);
-		k--;
-	}
-	free(tab);
-	return (NULL);
-}
-
-void	free_tabs_exit_free(t_cmd *cmd, char **env, char **argv, char *err)
-{
-	if (env)
-		free_tabtab(env);
-	if (argv)
-		free_tabtab(argv);
-	exit_free(cmd, err, 'c', 1);
+	ft_putstr_fd("Minishell: warning: here-document at line ", 2);
+	ft_putnbr_fd(i, 2);
+	ft_putstr_fd(" delimited by end-of-file (wanted '", 2);
+	ft_putstr_fd(eof, 2);
+	ft_putstr_fd("')\n", 2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/31 17:28:58 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 18:49:19 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/29 22:56:44 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	parent_life(t_cmd *tmp, int previous, int in, int out)
 		close(in);
 }
 
-void	child_life(t_cmd *tmp, int previous, int in, int out)
+void	child_life(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
 {
 	dup_in_and_out(tmp);
-	close_child_fds(tmp, previous, in, out);
-	determine_exe_type(tmp, NULL);
+	close_child_fds(tmp, previous, fd);
+	determine_exe_type(cmd, tmp, NULL);
 }
 
 int	pipe_and_attribute_fds(t_cmd *cmd, t_cmd *tmp, int *previous, int fd[2])

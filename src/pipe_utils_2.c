@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 21:14:51 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/23 17:47:08 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:04:14 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pipe_exec_child(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2])
 	if (is_built(tmp))
 		is_built_pipe(cmd, tmp, previous, fd);
 	else
-		child_life(tmp, previous, fd[0], fd[1]);
+		child_life(cmd, tmp, previous, fd);
 }
 
 t_cmd	*file_error_pipe(t_cmd *tmp, int previous, int fd[2])

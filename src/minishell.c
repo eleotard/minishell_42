@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 12:48:46 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/09/23 19:33:54 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:49:19 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	loop(void)
 		if (s == NULL)
 		{
 			ft_putstr_fd("exit\n", 2);
-			exit_free(NULL, NULL, 0, 1);
+			exit_free(NULL, NULL, 0, get_exit());
 		}
 		add_history(s);
 		if (only_space(s))

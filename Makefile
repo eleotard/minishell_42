@@ -19,6 +19,8 @@ SRCS =	src/minishell.c src/expand.c src/init.c src/parse.c \
 		src/redir_utils.c \
 		src/cd.c \
 		src/parse_utils.c \
+		src/heredoc_utils.c \
+		src/fork_utils.c \
 
 OBJS =	${SRCS:.c=.o}
 
@@ -26,7 +28,7 @@ HEADER = includes/
 
 #DEPS =	${SRCS:.o=.d}
 
-FLAGS =	-I $(HEADER) -Wall -Wextra -Werror -fsanitize=address
+FLAGS =	-I $(HEADER) -Wall -Wextra -Werror -g #-fsanitize=address
 
 NAME =	minishell
 

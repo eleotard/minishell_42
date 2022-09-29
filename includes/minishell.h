@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/24 19:03:37 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:18:09 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 
 typedef enum s_type
 {
@@ -103,6 +104,7 @@ char			*heredoc_extra(t_token *redir, char *tmp, int ret);
 int				fd_heredoc(char *s, t_cmd *cmd);
 void			get_old_fd_heredoc(t_cmd *cmd, t_cmd *cmd_tmp, t_token *token,
 					t_hd *hd);
+void			heredoc_err(int i, char *eof);
 
 /*REDIR*/
 void			file_err(t_token *tmp, t_cmd *cmd);
@@ -184,16 +186,18 @@ void			free_tabs_exit_free(t_cmd *cmd,
 					char **env, char **argv, char *err);
 
 /*EXEC*/
-void			determine_exe_type(t_cmd *cmd, char *path);
+void			determine_exe_type(t_cmd *cmd, t_cmd *tmp, char *path);
+void			check_exceptions_exec(t_cmd *cmd);
 int				find_nb_of_args(t_cmd *cmd);
 char			**create_env_tab(t_env *env, int nb_of_lines);
 char			**get_exec_env(void);
 char			**get_exec_args(t_cmd *cmd, int nb_of_arg);
-void			exec(t_cmd *cmd, const char *pathname);
+void			exec(t_cmd *cmd, t_cmd *tmp, const char *pathname);
 int				is_built(t_cmd *cmd);
 void			is_built_pipe(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
 int				ft_multi_pipe(t_cmd *cmd);
 void			dup_in_and_out(t_cmd *tmp);
+void			check_file_type(t_cmd *cmd, char *filestr);
 
 /*PARENT*/
 void			*parent(t_cmd *cmd, int res);
@@ -206,8 +210,8 @@ void			close_all_fds(t_cmd *cmd, int opt);
 /*CHILD*/
 void			pipe_exec_child(t_cmd *cmd, t_cmd *tmp, int previous,
 					int fd[2]);
-void			child_life(t_cmd *tmp, int previous, int in, int out);
-void			close_child_fds(t_cmd *tmp, int previous, int in, int out);
+void			child_life(t_cmd *cmd, t_cmd *tmp, int previous, int fd[2]);
+void			close_child_fds(t_cmd *tmp, int previous, int fd[2]);
 void			check_children_status(t_cmd *cmd, t_cmd *tmp, int *res);
 
 /*SIGNALS*/

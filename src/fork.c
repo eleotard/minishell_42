@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:03:32 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/23 18:13:33 by elpastor         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:08:53 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec(t_cmd *cmd, const char *pathname)
+void	exec(t_cmd *cmd, t_cmd *tmp, const char *pathname)
 {
 	char	**argv;
 	char	**env;
@@ -21,46 +21,43 @@ void	exec(t_cmd *cmd, const char *pathname)
 	env = get_exec_env();
 	if (!env)
 		exit_free(cmd, "\nERROR MALLOC ENV\n", 'c', 1);
-	nb_of_arg = find_nb_of_args(cmd);
+	nb_of_arg = find_nb_of_args(tmp);
 	if (nb_of_arg >= 1)
 	{
-		argv = get_exec_args(cmd, nb_of_arg);
+		argv = get_exec_args(tmp, nb_of_arg);
 		if (!argv)
 			free_tabs_exit_free(cmd, env, argv, "ERROR MALLOC ARGS\n");
 		if (!strcmp(pathname, argv[0]))
 			pathname = argv[0];
-		ctfree(cmd, NULL, 'c', 0);
+		ctfree(cmd, NULL, 'c', get_exit());
 		if (execve(pathname, argv, env) == -1)
 			exit(127);
 	}
 }
 
-void	determine_exe_type(t_cmd *cmd, char *path)
+void	determine_exe_type(t_cmd *cmd, t_cmd *tmp, char *path)
 {
-	if (!is_exe(cmd) && cmd->arg && cmd->arg->str)
+	check_exceptions_exec(tmp);
+	if (!is_built(tmp) && !find_slash(tmp))
 	{
-		print_err("command not found: ", cmd->arg->str, NULL);
-		exit_free(cmd, NULL, 'c', 127);
-	}
-	else if (!is_built(cmd) && !find_slash(cmd))
-	{
-		path = look_for_path(cmd);
+		path = look_for_path(tmp);
 		if (!path)
 		{
-			if (cmd->arg)
-				print_err("command not found: ", cmd->arg->str, NULL);
+			if (tmp->arg)
+				print_err("command not found: ", tmp->arg->str, NULL);
 			exit_free(cmd, NULL, 'c', 127);
 		}
-		exec(cmd, path);
+		exec(cmd, tmp, path);
 	}
-	else if (!is_built(cmd) && find_slash(cmd))
+	else if (!is_built(tmp) && find_slash(tmp))
 	{
-		if (access(cmd->arg->str, X_OK) == -1)
+		if (access(tmp->arg->str, X_OK) == -1)
 		{
-			print_err("command not found: ", cmd->arg->str, NULL);
+			print_err("command not found: ", tmp->arg->str, NULL);
 			exit_free(cmd, NULL, 'c', 127);
 		}
-		exec(cmd, cmd->arg->str);
+		check_file_type(tmp, tmp->arg->str);
+		exec(cmd, tmp, tmp->arg->str);
 	}
 }
 
@@ -72,7 +69,7 @@ void	single_cmd_handler(t_cmd *cmd)
 	if (cmd->fdout != 1)
 		dup2(cmd->fdout, 1);
 	close_all_fds(cmd, 1);
-	determine_exe_type(cmd, NULL);
+	determine_exe_type(cmd, cmd, NULL);
 }
 
 void	do_multi_pipe_or_single_non_built(t_cmd *cmd, int *res)
@@ -107,7 +104,8 @@ void	*parent(t_cmd *cmd, int res)
 		return (ctfree(cmd, NULL, 'c', 127), NULL);
 	}
 	if (!cmd->arg)
-		return (close_all_fds(cmd, 1), ctfree(cmd, NULL, 'c', 0), NULL);
+		return (close_all_fds(cmd, 1), ctfree(cmd, NULL, 'c', get_exit()),
+			NULL);
 	if (is_built(cmd) && get_cmd_size(cmd) == 1)
 	{
 		close_all_fds(cmd, 0);
