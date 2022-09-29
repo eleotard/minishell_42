@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:02:51 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/29 23:18:09 by elsie            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:38:01 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void			exit_free(void *ptr, char *err, char type, int n);
 void			*free_tabtab(char **tab);
 void			free_tabs_exit_free(t_cmd *cmd,
 					char **env, char **argv, char *err);
+char			*free_null(char *tmp);
 
 /*EXEC*/
 void			determine_exe_type(t_cmd *cmd, t_cmd *tmp, char *path);

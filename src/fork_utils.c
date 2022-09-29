@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 22:31:00 by elsie             #+#    #+#             */
-/*   Updated: 2022/09/29 22:50:56 by elsie            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:34:24 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	check_exceptions_exec(t_cmd *cmd)
 
 void	check_file_type(t_cmd *cmd, char *filestr)
 {
-	struct stat buf;
-	
+	struct stat	buf;
+
 	stat(filestr, &buf);
 	if (buf.st_mode != 0100000)
 	{
@@ -34,6 +34,5 @@ void	check_file_type(t_cmd *cmd, char *filestr)
 		ft_putstr_fd(filestr, 2);
 		ft_putstr_fd(": Is a directory\n", 2);
 		exit_free(cmd, NULL, 'c', 126);
-	}
-		
+	}	
 }

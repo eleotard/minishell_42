@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 14:31:27 by elpastor          #+#    #+#             */
-/*   Updated: 2022/09/29 22:15:20 by elsie            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:37:30 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ char	*heredoc_extra(t_token *redir, char *tmp, int ret)
 	i = 1;
 	s = NULL;
 	if (tmp)
-	{
-		free(tmp);
-		tmp = NULL;
-	}
+		tmp = free_null(tmp);
 	redir->str = del_unused_quot(redir->str);
 	while (ret == 0)
 	{

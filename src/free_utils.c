@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 17:33:22 by eleotard          #+#    #+#             */
-/*   Updated: 2022/09/29 22:31:37 by elsie            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:37:01 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,10 @@ void	free_tabs_exit_free(t_cmd *cmd, char **env, char **argv, char *err)
 	if (argv)
 		free_tabtab(argv);
 	exit_free(cmd, err, 'c', 1);
+}
+
+char	*free_null(char *tmp)
+{
+	free(tmp);
+	return (NULL);
 }
