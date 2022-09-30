@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 22:31:00 by elsie             #+#    #+#             */
-/*   Updated: 2022/09/29 23:34:24 by elsie            ###   ########.fr       */
+/*   Updated: 2022/09/30 02:22:27 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_file_type(t_cmd *cmd, char *filestr)
 	struct stat	buf;
 
 	stat(filestr, &buf);
-	if (buf.st_mode != 0100000)
+	if (buf.st_mode != 33277)
 	{
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(filestr, 2);
